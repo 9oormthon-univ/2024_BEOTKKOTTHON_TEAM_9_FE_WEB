@@ -22,8 +22,8 @@ export default function RootLayout({
           //  max-w-[430px] mx-auto : 430px 이상일 때 가운데 정렬
           ['min-h-screen w-full'],
           ['shadow-xl'],
-          ['bg-[#050014]'],
-          ['text-white'],
+          ['bg-[#FFFFFF]'],
+          ['text-black'],
         )}
       >
         {children}
