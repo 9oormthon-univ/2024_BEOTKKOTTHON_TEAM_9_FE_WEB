@@ -3,7 +3,9 @@ export interface Adoption {
     id: number;
     name: string;
     breed: string;
-    status: string;
+    gender: string;
+    characteristic: string;
     date: string;
+    status: string;
   }
   

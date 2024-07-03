@@ -1,4 +1,6 @@
 {
   "/page": "app/page.js",
-  "/not-found": "app/not-found.js"
+  "/adoption/page": "app/adoption/page.js",
+  "/shelter/page": "app/shelter/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js"
 }
