@@ -1,1 +1,1 @@
-self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/Users/bunju/Git/2024_BEOTKKOTTHON_TEAM_9_FE_WEB/src/app/layout\":[\"static/media/d79f674d91dd5dd3.p.woff2\",\"static/media/a15f2fce4b98b461-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"
+self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/Users/sillonjeu/StudioProjects/2024_BEOTKKOTTHON_TEAM_9_FE_WEB/src/app/layout\":[\"static/media/d79f674d91dd5dd3.p.woff2\",\"static/media/a15f2fce4b98b461-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"
