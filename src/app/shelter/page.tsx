@@ -1,7 +1,7 @@
 import React from "react";
 
-const AdoptionPage = () => {
-	return <div className="w-full">AdoptionPage 페이지입니당</div>;
+const ShelterPage = () => {
+	return <div className="w-full">ShelterPage 페이지입니당</div>;
 };
 
-export default AdoptionPage;
+export default ShelterPage;
