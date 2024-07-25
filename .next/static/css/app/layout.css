@@ -764,9 +764,6 @@ video {
 .min-w-full {
   min-width: 100%;
 }
-.max-w-\[430px\] {
-  max-width: 430px;
-}
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -857,6 +854,10 @@ video {
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+.bg-\[\#C1C1C1\] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(193 193 193 / var(--tw-bg-opacity));
 }
 .p-1 {
   padding: 0.25rem;
