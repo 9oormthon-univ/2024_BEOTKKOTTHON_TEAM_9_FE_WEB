@@ -1,7 +1,11 @@
 import React from "react";
 
 const HomePage = () => {
-	return <div className="w-full">유기견 입양을 관리하는 새로운 관리 툴</div>;
+  return (
+    <div className="w-full">
+      <div className="text-center text-2xl font-bold p-5">홈 페이지</div>
+    </div>
+  );
 };
 
 export default HomePage;
