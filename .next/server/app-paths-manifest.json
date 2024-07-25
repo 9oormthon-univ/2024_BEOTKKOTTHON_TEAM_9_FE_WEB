@@ -1,6 +1,0 @@
-{
-  "/page": "app/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/shelter/page": "app/shelter/page.js",
-  "/adoption/page": "app/adoption/page.js"
-}
