@@ -1,7 +1,12 @@
 import React from "react";
+import AdoptionStatus from "../../components/adoption/AdoptionStatus";
 
 const AdoptionPage = () => {
-	return <div className="w-full">AdoptionPage 페이지입니당</div>;
+	return (
+    <div className="w-full">
+      <AdoptionStatus />
+    </div>
+  );
 };
 
 export default AdoptionPage;
