@@ -26,11 +26,10 @@ const VerticalNavigation = () => {
 		},
 		{
 			label: "기관정보 관리",
-			link: "/shelter",
+			link: "/organizationinfo",
 			icon_w: "/svg/navi/2_w.svg",
 			icon_b: "/svg/navi/2_b.svg",
 		},
-		
 	];
 
 	return (

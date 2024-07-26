@@ -9,7 +9,7 @@ const AdoptionSummary: React.FC<{
 	return (
 		<div className="w-full px-4 md:px-0 mb-14">
 			<div className="flex flex-col md:flex-row justify-between items-center py-6 md:py-10">
-				<h1 className="text-xl md:text-2xl font-semibold mb-4 md:mb-0">
+				<h1 className="text-xl md:text-2xl md:mt-0 mt-10 font-semibold mb-4 md:mb-0">
 					입양현황
 				</h1>
 				<div className="bg-[#F9F7FF] rounded-full flex items-center p-2 w-full md:w-auto">

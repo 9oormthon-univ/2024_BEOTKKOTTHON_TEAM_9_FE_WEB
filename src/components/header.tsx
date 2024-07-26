@@ -1,4 +1,3 @@
-// src/components/header.tsx
 "use client";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
@@ -22,7 +21,7 @@ const Header = () => {
 			className="fixed top-0 left-0 w-full h-12 bg-white text-black flex items-center px-4 z-30 shadow"
 			style={{ boxShadow: "0 1px 4px rgba(0, 0, 0, 0.25)" }}
 		>
-			<div className="flex-2 flex items-center mr-10">
+			<div className="flex-2 hidden md:flex items-center mr-10">
 				<Image
 					src="/svg/navi/logo.svg"
 					alt="Logo"
