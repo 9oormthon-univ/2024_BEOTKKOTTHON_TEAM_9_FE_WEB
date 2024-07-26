@@ -5,6 +5,7 @@ import Script from "next/script";
 import { NotoSans } from "./fonts";
 import VerticalNavigation from "./components/navigation";
 import Header from "./components/header";
+import { NavigationProvider } from "../context/NavigationContext";
 
 export default function RootLayout({
 	children,
@@ -19,22 +20,24 @@ export default function RootLayout({
 					"min-h-screen w-full shadow-xl bg-[#FFFFFF] text-black flex flex-col"
 				)}
 			>
-				<Header />
-				<div className="flex flex-grow overflow-hidden">
-					<VerticalNavigation />
-					{/* Main content area, dynamically adjusting for the header and navigation width */}
-					{/* Adjusting margin-left to accommodate navigation width at different screen sizes */}
-					<div
-						className="flex-grow mt-12"
-						style={{
-							marginLeft: "calc(5rem + 18%)",
-							marginRight: "2%",
-							paddingTop: "1rem",
-						}}
-					>
-						{children}
+				<NavigationProvider>
+					<Header />
+					<div className="flex flex-grow overflow-hidden">
+						<VerticalNavigation />
+						{/* Main content area, dynamically adjusting for the header and navigation width */}
+						{/* Adjusting margin-left to accommodate navigation width at different screen sizes */}
+						<div
+							className="flex-grow mt-12 lg:ml-64"
+							style={{
+								marginLeft: "calc(5rem + 18%)",
+								marginRight: "2%",
+								paddingTop: "1rem",
+							}}
+						>
+							{children}
+						</div>
 					</div>
-				</div>
+				</NavigationProvider>
 			</body>
 		</html>
 	);
