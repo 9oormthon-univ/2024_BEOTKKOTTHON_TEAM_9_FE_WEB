@@ -34,12 +34,16 @@ export default function RootLayout({
 					children
 				) : (
 					<NavigationProvider>
-						<Header />
-						<div className="flex flex-grow overflow-hidden">
-							<VerticalNavigation />
-							<main className="flex-grow lg:ml-64">
-								{children}
-							</main>
+						<div className="flex flex-col flex-grow overflow-hidden">
+							<div className="relative z-20">
+								<Header />
+							</div>
+							<div className="flex overflow-hidden z-10">
+								<VerticalNavigation />
+								<main className="flex-grow lg:ml-64 z-0">
+									{children}
+								</main>
+							</div>
 						</div>
 					</NavigationProvider>
 				)}
