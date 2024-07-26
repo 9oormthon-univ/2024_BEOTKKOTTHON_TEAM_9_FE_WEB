@@ -1,5 +1,5 @@
 import React from "react";
-import AdoptionStatus from "../components/adoption/AdoptionStatus";
+import AdoptionStatus from "../../components/adoption/AdoptionStatus";
 
 const AdoptionPage = () => {
 	return (

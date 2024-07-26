@@ -5,8 +5,8 @@ import "../styles/globals.css";
 import clsx from "clsx";
 import { usePathname } from "next/navigation";
 import { NotoSans } from "./fonts";
-import VerticalNavigation from "./components/navigation";
-import Header from "./components/header";
+import VerticalNavigation from "../components/navigation";
+import Header from "../components/header";
 import { NavigationProvider } from "../context/NavigationContext";
 
 export default function RootLayout({
@@ -15,7 +15,11 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	const pathname = usePathname();
-	const isLoginPage = pathname === "/login";
+	const notNaviPage =
+		pathname === "/login" ||
+		pathname === "/signup" ||
+		pathname === "/signup/step2" ||
+		pathname === "/signup/step3";
 
 	return (
 		<html lang="ko" className="w-full h-full bg-[#fff]">
@@ -25,7 +29,7 @@ export default function RootLayout({
 					"min-h-screen w-full bg-[#FFFFFF] text-black flex flex-col"
 				)}
 			>
-				{isLoginPage ? (
+				{notNaviPage ? (
 					children
 				) : (
 					<NavigationProvider>

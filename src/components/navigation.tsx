@@ -2,7 +2,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useNavigation } from "../../context/NavigationContext";
+import { useNavigation } from "../context/NavigationContext";
 
 interface NavItem {
 	label: string;

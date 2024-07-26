@@ -2,7 +2,7 @@
 "use client";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
-import { useNavigation } from "../../context/NavigationContext";
+import { useNavigation } from "../context/NavigationContext";
 import { FiMenu } from "react-icons/fi";
 
 const Header = () => {
