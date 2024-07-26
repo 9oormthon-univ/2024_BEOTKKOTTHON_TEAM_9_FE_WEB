@@ -3,8 +3,8 @@ import "../styles/globals.css";
 import clsx from "clsx";
 import Script from "next/script";
 import { NotoSans } from "./fonts";
-import VerticalNavigation from "../components/navigation";
-import Header from "../components/header";
+import VerticalNavigation from "./components/navigation";
+import Header from "./components/header";
 
 export default function RootLayout({
 	children,
