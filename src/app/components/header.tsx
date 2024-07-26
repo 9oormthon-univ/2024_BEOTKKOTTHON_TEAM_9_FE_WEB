@@ -36,9 +36,7 @@ const Header = () => {
 			<div className="flex-1 text-right flex items-center justify-end">
 				<span className="mr-4">{userName}</span>
 				<button onClick={toggleNav} className="lg:hidden">
-					<button onClick={toggleNav} className="lg:hidden">
-						<FiMenu size={24} color="#5326AC" />
-					</button>
+					<FiMenu size={24} color="#5326AC" />
 				</button>
 			</div>
 		</div>

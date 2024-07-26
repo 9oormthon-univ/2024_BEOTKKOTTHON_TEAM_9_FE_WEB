@@ -8,7 +8,7 @@ const LoginPage = () => {
 			{/* 왼쪽 이미지 섹션 */}
 			<div className="hidden lg:block lg:w-1/2 relative">
 				<Image
-					src="/login-image.png"
+					src="/images/logIma.png"
 					alt="Login"
 					layout="fill"
 					objectFit="cover"
@@ -18,60 +18,57 @@ const LoginPage = () => {
 			{/* 오른쪽 로그인 폼 섹션 */}
 			<div className="w-full lg:w-1/2 flex flex-col justify-center items-center px-6 lg:px-16">
 				<div className="w-full max-w-md">
-					{/* 로고 */}
-					<div className="mb-8">
-						<Image
-							src="/logo.svg"
-							alt="Logo"
-							width={150}
-							height={50}
-						/>
-					</div>
+					{/* 로고와 환영 메시지를 세로로 정렬 */}
 
-					{/* 환영 메시지 */}
-					<h2 className="text-3xl font-bold mb-6">반갑습니다!</h2>
-					<p className="text-gray-600 mb-8">계정에 로그인하세요.</p>
+					<div className="flex flex-col items-center justify-center mb-16">
+						<Image
+							className="mb-4"
+							src="/svg/login/foot.svg"
+							alt="Logo"
+							width={49.81}
+							height={35.01}
+						/>
+						<h2 className="text-3xl font-bold ml-4">
+							관리도 편하게 봄멍으로!
+						</h2>
+					</div>
 
 					{/* 로그인 폼 */}
 					<form>
 						<div className="mb-4">
 							<input
 								type="email"
-								placeholder="이메일"
-								className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
+								placeholder="아이디를 입력해주세요"
+								className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 bg-[#F7F4FF]"
 							/>
 						</div>
 						<div className="mb-6">
 							<input
 								type="password"
-								placeholder="비밀번호"
-								className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
+								placeholder="비밀번호를 입력해주세요"
+								className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 bg-[#F7F4FF]"
 							/>
 						</div>
 						<button
 							type="submit"
-							className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 transition duration-200"
+							className="w-full bg-[#A273FF] text-white py-2 rounded-lg hover:bg-purple-700 transition duration-200"
 						>
 							로그인
 						</button>
 					</form>
 
-					{/* 추가 링크 */}
+					{/* 비밀번호 찾기와 회원가입 버튼 */}
 					<div className="mt-6 text-center">
 						<Link
 							href="/forgot-password"
-							className="text-sm text-purple-600 hover:underline"
+							className="text-[#9A9A9A] hover:underline"
 						>
-							비밀번호를 잊으셨나요?
+							비밀번호 찾기
 						</Link>
-					</div>
-					<div className="mt-4 text-center">
-						<span className="text-gray-600">
-							계정이 없으신가요?{" "}
-						</span>
+						<span className="mx-2 text-gray-400">|</span>
 						<Link
 							href="/signup"
-							className="text-purple-600 hover:underline"
+							className="text-[#9A9A9A] hover:underline"
 						>
 							회원가입
 						</Link>
