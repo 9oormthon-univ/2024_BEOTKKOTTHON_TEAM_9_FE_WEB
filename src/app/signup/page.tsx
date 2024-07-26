@@ -93,7 +93,7 @@ const SignupPage = () => {
 			</div>
 
 			{/* Navigation buttons */}
-			<NavigationButtons />
+			<NavigationButtons currentStep={1} />
 		</div>
 	);
 };

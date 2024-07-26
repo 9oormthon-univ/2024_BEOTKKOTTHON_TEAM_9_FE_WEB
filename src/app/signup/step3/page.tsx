@@ -58,7 +58,7 @@ const SignupStep3Page = () => {
 			<Banner />
 			<ProgressIndicator step={3} />
 
-			<div className="w-full px-4 sm:px-8 lg:px-[240px] mt-9">
+			<div className="w-full px-4 sm:px-8 lg:px-[240px] max-w-[1000px]">
 				<div className="w-full bg-white p-6 lg:p-8 border-solid border-[#C7C7C7] rounded-sm">
 					<h2 className="text-center text-2xl font-bold mb-3.5">
 						기관정보 입력
@@ -102,7 +102,7 @@ const SignupStep3Page = () => {
 								type: "tel",
 							},
 						].map((field) => (
-							<div key={field.name} className="flex flex-col">
+							<div key={field.name} className="flex flex-col ">
 								<label
 									htmlFor={field.name}
 									className="mb-2 font-medium text-gray-700"
@@ -171,7 +171,7 @@ const SignupStep3Page = () => {
 				</div>
 			</div>
 
-			<NavigationButtons />
+			<NavigationButtons currentStep={3} />
 		</div>
 	);
 };

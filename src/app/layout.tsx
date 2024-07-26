@@ -19,13 +19,14 @@ export default function RootLayout({
 		pathname === "/login" ||
 		pathname === "/signup" ||
 		pathname === "/signup/step2" ||
-		pathname === "/signup/step3";
+		pathname === "/signup/step3" ||
+		pathname === "/signup/step4";
 
 	return (
 		<html lang="ko" className="w-full h-full bg-[#fff]">
 			<body
 				className={clsx(
-					[NotoSans.className],
+					"pretendard",
 					"min-h-screen w-full bg-[#FFFFFF] text-black flex flex-col"
 				)}
 			>

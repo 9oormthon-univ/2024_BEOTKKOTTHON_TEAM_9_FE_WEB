@@ -13,34 +13,38 @@ const ProgressIndicator: React.FC<ProgressIndicatorProps> = ({ step }) => {
 	];
 
 	return (
-		<div className="w-full flex justify-center my-8">
-			{steps.map((stepItem, index) => (
-				<div
-					key={index}
-					className="flex flex-col items-center w-24 mx-2"
-				>
-					<span
-						className={`font-bold mb-1 ${
-							stepItem.active
-								? "text-purple-600"
-								: "text-gray-400"
-						}`}
-						style={{ fontSize: "24px" }}
+		<div className="w-full">
+			<div className="flex justify-center my-8">
+				{steps.map((stepItem, index) => (
+					<div
+						key={index}
+						className="flex flex-col items-center w-1/5 px-2"
 					>
-						{stepItem.number}
-					</span>
-					<span
-						className={`text-center font-medium whitespace-nowrap ${
-							stepItem.active
-								? "text-purple-600"
-								: "text-gray-400"
-						}`}
-						style={{ fontSize: "14px" }}
-					>
-						{stepItem.text}
-					</span>
-				</div>
-			))}
+						<span
+							className={`font-medium mb-1 ${
+								stepItem.active
+									? "text-[#A273FF]"
+									: "text-gray-400"
+							} text-2xl sm:text-3xl md:text-4xl lg:text-[24px]`}
+						>
+							{stepItem.number}
+						</span>
+						<span
+							className={`text-center font-medium whitespace-nowrap ${
+								stepItem.active
+									? "text-[#A273FF]"
+									: "text-gray-400"
+							} text-xs sm:text-sm md:text-base lg:text-[24px]`}
+						>
+							{stepItem.text}
+						</span>
+					</div>
+				))}
+			</div>
+			{/* Horizontal line */}
+			<div className="w-full px-4 sm:px-8 lg:px-16 mb-6">
+				<hr className="border-t border-[#C7C7C7]" />
+			</div>
 		</div>
 	);
 };
