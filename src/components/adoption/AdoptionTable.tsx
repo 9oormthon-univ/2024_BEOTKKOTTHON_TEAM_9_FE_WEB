@@ -33,28 +33,15 @@ const AdoptionTable: React.FC<{ adoptions: Adoption[] }> = ({ adoptions }) => {
 			setSelectedAdoptions(newSelection);
 		}
 	};
-
 	return (
-		<div className="p-1 w-4/5 mx-auto">
-			<div className="flex justify-between items-center py-10">
-				<h1 className="text-2xl font-semibold">보호견 리스트</h1>
-				<div
-					className="bg-[#F9F7FF] rounded-full flex items-center p-2"
-					style={{ borderRadius: "21.5px" }}
-				>
-					<input
-						type="text"
-						placeholder="리스트 검색"
-						className="border-none bg-transparent outline-none"
-					/>
-					<img src="/search.svg" alt="Search" className="mr-2" />
-				</div>
-			</div>
-			<hr className="my-1" />
-			<table className="min-w-full divide-y divide-gray-200 bg-[#FCFBFF] text-center">
+		<div className="w-full px-4 md:px-0 overflow-x-auto">
+			<h1 className="text-xl md:text-2xl font-semibold mb-4 md:mb-6">
+				보호견 리스트
+			</h1>
+			<table className="min-w-full divide-y divide-gray-200 bg-[#FCFBFF] text-center text-sm md:text-base">
 				<thead className="bg-gray-50">
 					<tr>
-						<th>
+						<th className="p-2 md:p-3">
 							<input
 								type="checkbox"
 								onChange={toggleAllAdoptions}
@@ -64,25 +51,25 @@ const AdoptionTable: React.FC<{ adoptions: Adoption[] }> = ({ adoptions }) => {
 								}
 							/>
 						</th>
-						<th className="font-semibold text-1xl text-[#787878]">
+						<th className="font-semibold text-[#787878] p-2 md:p-3 truncate">
 							공고번호
 						</th>
-						<th className="font-semibold text-1xl text-[#787878]">
+						<th className="font-semibold text-[#787878] p-2 md:p-3 truncate">
 							이름
 						</th>
-						<th className="font-semibold text-1xl text-[#787878]">
+						<th className="font-semibold text-[#787878] p-2 md:p-3 truncate">
 							견종
 						</th>
-						<th className="font-semibold text-1xl text-[#787878]">
+						<th className="font-semibold text-[#787878] p-2 md:p-3 truncate">
 							성별
 						</th>
-						<th className="font-semibold text-1xl text-[#787878]">
+						<th className="font-semibold text-[#787878] p-2 md:p-3 truncate">
 							특성
 						</th>
-						<th className="font-semibold text-1xl text-[#787878]">
+						<th className="font-semibold text-[#787878] p-2 md:p-3 truncate">
 							등록일
 						</th>
-						<th className="font-semibold text-1xl text-[#787878]">
+						<th className="font-semibold text-[#787878] p-2 md:p-3 truncate">
 							신청현황
 						</th>
 					</tr>
@@ -91,11 +78,11 @@ const AdoptionTable: React.FC<{ adoptions: Adoption[] }> = ({ adoptions }) => {
 					{currentItems.map((adoption, index) => (
 						<tr
 							key={adoption.id}
-							className={`border-b-2 ${
+							className={`border-b ${
 								index % 2 === 0 ? "bg-white" : "bg-gray-50"
 							}`}
 						>
-							<td>
+							<td className="p-2 md:p-3">
 								<input
 									type="checkbox"
 									checked={selectedAdoptions.has(adoption.id)}
@@ -104,19 +91,33 @@ const AdoptionTable: React.FC<{ adoptions: Adoption[] }> = ({ adoptions }) => {
 									}
 								/>
 							</td>
-							<td className="py-4">{adoption.id}</td>
-							<td>{adoption.name}</td>
-							<td>{adoption.breed}</td>
-							<td>{adoption.gender}</td>
-							<td>{adoption.characteristic}</td>
-							<td>{adoption.date}</td>
-							<td>{adoption.status}</td>
+							<td className="p-2 md:p-3 truncate max-w-[100px]">
+								{adoption.id}
+							</td>
+							<td className="p-2 md:p-3 truncate max-w-[100px]">
+								{adoption.name}
+							</td>
+							<td className="p-2 md:p-3 truncate max-w-[100px]">
+								{adoption.breed}
+							</td>
+							<td className="p-2 md:p-3 truncate max-w-[50px]">
+								{adoption.gender}
+							</td>
+							<td className="p-2 md:p-3 truncate max-w-[150px]">
+								{adoption.characteristic}
+							</td>
+							<td className="p-2 md:p-3 truncate max-w-[100px]">
+								{adoption.date}
+							</td>
+							<td className="p-2 md:p-3 truncate max-w-[100px]">
+								{adoption.status}
+							</td>
 						</tr>
 					))}
 				</tbody>
 			</table>
-			<div className="flex justify-between my-4">
-				<button className="bg-[#C1C1C1] text-white py-2 px-4 rounded">
+			<div className="flex flex-col md:flex-row justify-between my-4">
+				<button className="bg-[#C1C1C1] text-white py-2 px-4 rounded mb-2 md:mb-0">
 					삭제하기
 				</button>
 				<button className="bg-[#8A50FF] text-white py-2 px-4 rounded">

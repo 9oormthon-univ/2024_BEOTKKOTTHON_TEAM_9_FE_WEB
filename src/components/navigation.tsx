@@ -30,6 +30,7 @@ const VerticalNavigation = () => {
 			icon_w: "/svg/navi/2_w.svg",
 			icon_b: "/svg/navi/2_b.svg",
 		},
+		
 	];
 
 	return (
