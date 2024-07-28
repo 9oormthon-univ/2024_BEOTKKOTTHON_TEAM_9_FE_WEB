@@ -11,7 +11,7 @@ export const adoptions: Adoption[] = [
 		status: 1,
 	},
 	{
-		id: 59815,
+		id: 59816,
 		name: "새봄2",
 		breed: "골든리트리버",
 		gender: "암컷",
@@ -20,7 +20,7 @@ export const adoptions: Adoption[] = [
 		status: 2,
 	},
 	{
-		id: 59815,
+		id: 59817,
 		name: "새봄3",
 		breed: "골든리트리버",
 		gender: "암컷",
@@ -29,7 +29,7 @@ export const adoptions: Adoption[] = [
 		status: 1,
 	},
 	{
-		id: 59815,
+		id: 59818,
 		name: "새봄4",
 		breed: "골든리트리버",
 		gender: "암컷",
@@ -38,7 +38,7 @@ export const adoptions: Adoption[] = [
 		status: 1,
 	},
 	{
-		id: 59815,
+		id: 59819,
 		name: "새봄5",
 		breed: "골든리트리버",
 		gender: "암컷",
@@ -47,7 +47,7 @@ export const adoptions: Adoption[] = [
 		status: 1,
 	},
 	{
-		id: 59815,
+		id: 59820,
 		name: "새봄6",
 		breed: "골든리트리버",
 		gender: "암컷",
@@ -56,7 +56,7 @@ export const adoptions: Adoption[] = [
 		status: 1,
 	},
 	{
-		id: 59815,
+		id: 59821,
 		name: "새봄7",
 		breed: "골든리트리버",
 		gender: "암컷",
@@ -65,7 +65,7 @@ export const adoptions: Adoption[] = [
 		status: 1,
 	},
 	{
-		id: 59815,
+		id: 59822,
 		name: "새봄8",
 		breed: "골든리트리버",
 		gender: "암컷",
@@ -74,7 +74,7 @@ export const adoptions: Adoption[] = [
 		status: 1,
 	},
 	{
-		id: 59815,
+		id: 59823,
 		name: "새봄9",
 		breed: "골든리트리버",
 		gender: "암컷",
@@ -83,7 +83,7 @@ export const adoptions: Adoption[] = [
 		status: 1,
 	},
 	{
-		id: 59815,
+		id: 59824,
 		name: "새봄10",
 		breed: "골든리트리버",
 		gender: "암컷",
@@ -92,7 +92,7 @@ export const adoptions: Adoption[] = [
 		status: 1,
 	},
 	{
-		id: 59815,
+		id: 59825,
 		name: "새봄11",
 		breed: "골든리트리버",
 		gender: "암컷",
@@ -101,7 +101,7 @@ export const adoptions: Adoption[] = [
 		status: 1,
 	},
 	{
-		id: 59815,
+		id: 59826,
 		name: "새봄12",
 		breed: "골든리트리버",
 		gender: "암컷",
@@ -110,7 +110,7 @@ export const adoptions: Adoption[] = [
 		status: 1,
 	},
 	{
-		id: 59815,
+		id: 59827,
 		name: "새봄13",
 		breed: "골든리트리버",
 		gender: "암컷",
@@ -119,7 +119,7 @@ export const adoptions: Adoption[] = [
 		status: 1,
 	},
 	{
-		id: 59815,
+		id: 59828,
 		name: "새봄14",
 		breed: "골든리트리버",
 		gender: "암컷",

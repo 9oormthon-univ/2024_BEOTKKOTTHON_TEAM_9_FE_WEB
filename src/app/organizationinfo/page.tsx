@@ -19,15 +19,15 @@ const OrganizationInfoPage = () => {
 		setIsEditing(!isEditing);
 	};
 
-	const handleChange = (key, value) => {
+	const handleChange = (key: string, value: string) => {
 		setFormData({ ...formData, [key]: value });
 	};
 
 	return (
 		<div className="container mx-auto px-4 py-8 max-w-[670px]">
-			<h1 className="text-[45px] font-extrabold text-[#8A50FF] text-center mb-10 mt-10">
-				반갑습니다 <br />
-				0000 보호소 관리자님!
+			<h1 className="text-3xl md:text-4xl lg:text-[45px] font-extrabold text-[#8A50FF] text-center mb-6 md:mb-8 lg:mb-10 mt-6 md:mt-8 lg:mt-10">
+				<span className="block mb-2 md:mb-3">반갑습니다</span>
+				<span className="block">0000 보호소 관리자님!</span>
 			</h1>
 
 			<div className="bg-[#FCFBFF] rounded-lg overflow-hidden relative">

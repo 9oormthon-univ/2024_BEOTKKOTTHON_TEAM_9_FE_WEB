@@ -1,21 +1,30 @@
 "use client";
 import { Adoption } from "@/interfaces/adoption/types";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
-const AdoptionTable: React.FC<{ adoptions: Adoption[] }> = ({ adoptions }) => {
+const AdoptionTable: React.FC<{ adoptions?: Adoption[] }> = ({
+	adoptions = [],
+}) => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [selectedAdoptions, setSelectedAdoptions] = useState<Set<number>>(
 		new Set()
 	);
+	const [currentItems, setCurrentItems] = useState<Adoption[]>([]);
 	const itemsPerPage = 5;
-	const totalPages = Math.ceil(adoptions.length / itemsPerPage);
 
-	const indexOfLastItem = currentPage * itemsPerPage;
-	const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-	const currentItems = adoptions.slice(indexOfFirstItem, indexOfLastItem);
+	useEffect(() => {
+		const indexOfLastItem = currentPage * itemsPerPage;
+		const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+		setCurrentItems(adoptions.slice(indexOfFirstItem, indexOfLastItem));
+	}, [adoptions, currentPage]);
+
+	const totalPages = Math.ceil((adoptions?.length || 0) / itemsPerPage);
 
 	const handlePageChange = (newPage: number) => setCurrentPage(newPage);
-	const toggleAdoptionSelection = (id: number) => {
+	const toggleAdoptionSelection = (id: number, event: React.MouseEvent) => {
+		event.preventDefault();
+		event.stopPropagation();
 		const newSelection = new Set(selectedAdoptions);
 		if (newSelection.has(id)) {
 			newSelection.delete(id);
@@ -33,6 +42,11 @@ const AdoptionTable: React.FC<{ adoptions: Adoption[] }> = ({ adoptions }) => {
 			setSelectedAdoptions(newSelection);
 		}
 	};
+
+	if (!adoptions || adoptions.length === 0) {
+		return <div>No adoptions available.</div>;
+	}
+
 	return (
 		<div className="w-full px-4 md:px-0 overflow-x-auto">
 			<h1 className="text-xl md:text-2xl font-semibold mb-4 md:mb-6">
@@ -102,76 +116,103 @@ const AdoptionTable: React.FC<{ adoptions: Adoption[] }> = ({ adoptions }) => {
 					</tr>
 				</thead>
 				<tbody>
-					{currentItems.map((adoption, index) => (
-						<tr key={adoption.id}>
-							<td
-								className="p-2 md:p-3"
-								style={{ borderBottom: "1px solid #C7C7C7" }}
-							>
-								<input
-									type="checkbox"
-									checked={selectedAdoptions.has(adoption.id)}
-									onChange={() =>
-										toggleAdoptionSelection(adoption.id)
-									}
-								/>
-							</td>
-							<td
-								className="p-2 md:p-3 truncate max-w-[100px]"
-								style={{ borderBottom: "1px solid #C7C7C7" }}
-							>
-								{adoption.id}
-							</td>
-							<td
-								className="p-2 md:p-3 truncate max-w-[100px]"
-								style={{ borderBottom: "1px solid #C7C7C7" }}
-							>
-								{adoption.name}
-							</td>
-							<td
-								className="p-2 md:p-3 truncate max-w-[100px]"
-								style={{ borderBottom: "1px solid #C7C7C7" }}
-							>
-								{adoption.breed}
-							</td>
-							<td
-								className="p-2 md:p-3 truncate max-w-[50px]"
-								style={{ borderBottom: "1px solid #C7C7C7" }}
-							>
-								{adoption.gender}
-							</td>
-							<td
-								className="p-2 md:p-3 truncate max-w-[150px]"
-								style={{ borderBottom: "1px solid #C7C7C7" }}
-							>
-								{adoption.characteristic}
-							</td>
-							<td
-								className="p-2 md:p-3 truncate max-w-[100px]"
-								style={{ borderBottom: "1px solid #C7C7C7" }}
-							>
-								{adoption.date}
-							</td>
-							<td
-								className="p-2 md:p-3 truncate max-w-[100px]"
-								style={{ borderBottom: "1px solid #C7C7C7" }}
-							>
-								<div
+					{currentItems.map((adoption) => (
+						<Link
+							href={`/adoption/${adoption.id}`}
+							key={adoption.id}
+							passHref
+							legacyBehavior
+						>
+							<tr className="cursor-pointer hover:bg-[#F0E7FF]">
+								<td
+									className="p-2 md:p-3"
 									style={{
-										display: "inline-flex",
-										alignItems: "center",
-										justifyContent: "center",
-										width: "38.75px",
-										height: "25px",
-										backgroundColor: "#8A50FF",
-										borderRadius: "12.5px",
-										color: "white",
+										borderBottom: "1px solid #C7C7C7",
+									}}
+									onClick={(e) =>
+										toggleAdoptionSelection(adoption.id, e)
+									}
+								>
+									<input
+										type="checkbox"
+										checked={selectedAdoptions.has(
+											adoption.id
+										)}
+										onChange={() => {}}
+										onClick={(e) => e.stopPropagation()}
+									/>
+								</td>
+								<td
+									className="p-2 md:p-3 truncate max-w-[100px]"
+									style={{
+										borderBottom: "1px solid #C7C7C7",
 									}}
 								>
-									{adoption.status}
-								</div>
-							</td>
-						</tr>
+									{adoption.id}
+								</td>
+								<td
+									className="p-2 md:p-3 truncate max-w-[100px]"
+									style={{
+										borderBottom: "1px solid #C7C7C7",
+									}}
+								>
+									{adoption.name}
+								</td>
+								<td
+									className="p-2 md:p-3 truncate max-w-[100px]"
+									style={{
+										borderBottom: "1px solid #C7C7C7",
+									}}
+								>
+									{adoption.breed}
+								</td>
+								<td
+									className="p-2 md:p-3 truncate max-w-[50px]"
+									style={{
+										borderBottom: "1px solid #C7C7C7",
+									}}
+								>
+									{adoption.gender}
+								</td>
+								<td
+									className="p-2 md:p-3 truncate max-w-[150px]"
+									style={{
+										borderBottom: "1px solid #C7C7C7",
+									}}
+								>
+									{adoption.characteristic}
+								</td>
+								<td
+									className="p-2 md:p-3 truncate max-w-[100px]"
+									style={{
+										borderBottom: "1px solid #C7C7C7",
+									}}
+								>
+									{adoption.date}
+								</td>
+								<td
+									className="p-2 md:p-3 truncate max-w-[100px]"
+									style={{
+										borderBottom: "1px solid #C7C7C7",
+									}}
+								>
+									<div
+										style={{
+											display: "inline-flex",
+											alignItems: "center",
+											justifyContent: "center",
+											width: "38.75px",
+											height: "25px",
+											backgroundColor: "#8A50FF",
+											borderRadius: "12.5px",
+											color: "white",
+										}}
+									>
+										{adoption.status}
+									</div>
+								</td>
+							</tr>
+						</Link>
 					))}
 				</tbody>
 			</table>
