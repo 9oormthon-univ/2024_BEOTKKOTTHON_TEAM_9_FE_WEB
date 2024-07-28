@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { adoptions } from "@/constants/adoption/protective_dog";
+import Link from "next/link";
 
 const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 	const dogId = parseInt(params.dogId);
@@ -363,9 +364,13 @@ const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 											{applicant.reason}
 										</td>
 										<td className="py-2 px-4 truncate max-w-[90px] text-center">
-											<button className="border border-[#D4CEE1] bg-white text-[#5326AC] py-1 px-3 rounded hover:bg-[#F0E7FF] whitespace-nowrap">
-												보기
-											</button>
+											<Link
+												href={`/adoption/${dogId}/${applicant.id}`}
+											>
+												<button className="border border-[#D4CEE1] bg-white text-[#5326AC] py-1 px-3 rounded hover:bg-[#F0E7FF] whitespace-nowrap">
+													보기
+												</button>
+											</Link>
 										</td>
 										<td className="py-2 px-4 text-center">
 											<button className="bg-[#8A50FF] text-white py-1 px-3 rounded mr-2 hover:bg-[#7340DB] whitespace-nowrap">
