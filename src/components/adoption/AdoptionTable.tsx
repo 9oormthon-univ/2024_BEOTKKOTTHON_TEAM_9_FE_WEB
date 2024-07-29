@@ -220,9 +220,11 @@ const AdoptionTable: React.FC<{ adoptions?: Adoption[] }> = ({
 				<button className="bg-[#C7C7C7] text-white py-2 px-4 rounded mb-2 md:mb-0">
 					삭제하기
 				</button>
-				<button className="bg-[#8A50FF] text-white py-2 px-4 rounded">
-					새로 추가하기
-				</button>
+				<Link href="/adddog" className="text-[#9A9A9A] hover:underline">
+					<button className="bg-[#8A50FF] text-white py-2 px-4 rounded">
+						새로 추가하기
+					</button>
+				</Link>
 			</div>
 			<div className="flex justify-between items-center my-4"></div>
 		</div>
