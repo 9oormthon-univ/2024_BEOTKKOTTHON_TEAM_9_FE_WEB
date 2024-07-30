@@ -20,7 +20,7 @@ export default function RootLayout({
 		pathname === "/signup" ||
 		pathname === "/signup/step2" ||
 		pathname === "/signup/step3" ||
-		pathname === "/signup/step4";
+		pathname === "/signup/complete";
 
 	return (
 		<html lang="ko" className="w-full h-full bg-[#fff]">

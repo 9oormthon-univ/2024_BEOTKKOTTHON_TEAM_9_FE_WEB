@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,7 +5,13 @@ import ProgressIndicator from "@/components/signup/ProgressIndicator";
 import Banner from "@/components/signup/Banner";
 import { IoCheckmarkCircle } from "react-icons/io5";
 
-const SignupCompletePage = () => {
+interface SignupCompletePresenterProps {
+	email: string;
+}
+
+const SignupCompletePresenter: React.FC<SignupCompletePresenterProps> = ({
+	email,
+}) => {
 	return (
 		<div className="flex flex-col items-center min-h-screen bg-white">
 			<Banner />
@@ -27,11 +32,9 @@ const SignupCompletePage = () => {
 					</p>
 					<div className="space-y-4">
 						<p className="text-sm">
-							입력하신 이메일(
-							<span className="font-semibold">
-								example@email.com
-							</span>
-							)로 로그인하실 수 있습니다.
+							입력하신 이메일
+							<span className="font-semibold">{email}</span>로
+							로그인하실 수 있습니다.
 						</p>
 						<p className="text-sm">
 							봄멍의 다양한 서비스를 이용해 보세요. 유기견 관리와
@@ -52,4 +55,4 @@ const SignupCompletePage = () => {
 	);
 };
 
-export default SignupCompletePage;
+export default SignupCompletePresenter;
