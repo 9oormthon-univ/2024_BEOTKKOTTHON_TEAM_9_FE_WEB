@@ -1,16 +1,16 @@
 "use client";
-import { Adoption } from "@/interfaces/adoption/types";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { AdoptionItem } from "@/interfaces/adoption/types";
 
-const AdoptionTable: React.FC<{ adoptions?: Adoption[] }> = ({
+const AdoptionTable: React.FC<{ adoptions: AdoptionItem[] }> = ({
 	adoptions = [],
 }) => {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [selectedAdoptions, setSelectedAdoptions] = useState<Set<number>>(
 		new Set()
 	);
-	const [currentItems, setCurrentItems] = useState<Adoption[]>([]);
+	const [currentItems, setCurrentItems] = useState<AdoptionItem[]>([]);
 	const itemsPerPage = 5;
 
 	useEffect(() => {
@@ -19,34 +19,27 @@ const AdoptionTable: React.FC<{ adoptions?: Adoption[] }> = ({
 		setCurrentItems(adoptions.slice(indexOfFirstItem, indexOfLastItem));
 	}, [adoptions, currentPage]);
 
-	const totalPages = Math.ceil((adoptions?.length || 0) / itemsPerPage);
-
-	const handlePageChange = (newPage: number) => setCurrentPage(newPage);
-	const toggleAdoptionSelection = (id: number, event: React.MouseEvent) => {
-		event.preventDefault();
-		event.stopPropagation();
-		const newSelection = new Set(selectedAdoptions);
-		if (newSelection.has(id)) {
-			newSelection.delete(id);
-		} else {
-			newSelection.add(id);
-		}
-		setSelectedAdoptions(newSelection);
+	const toggleAdoptionSelection = (id: number) => {
+		setSelectedAdoptions((prev) => {
+			const newSet = new Set(prev);
+			if (newSet.has(id)) {
+				newSet.delete(id);
+			} else {
+				newSet.add(id);
+			}
+			return newSet;
+		});
 	};
+
 	const toggleAllAdoptions = () => {
 		if (selectedAdoptions.size === currentItems.length) {
 			setSelectedAdoptions(new Set());
 		} else {
-			const newSelection = new Set<number>();
-			currentItems.forEach((adoption) => newSelection.add(adoption.id));
-			setSelectedAdoptions(newSelection);
+			setSelectedAdoptions(
+				new Set(currentItems.map((item) => item.postId))
+			);
 		}
 	};
-
-	if (!adoptions || adoptions.length === 0) {
-		return <div>No adoptions available.</div>;
-	}
-
 	return (
 		<div className="w-full px-4 md:px-0 overflow-x-auto">
 			<h1 className="text-xl md:text-2xl font-semibold mb-4 md:mb-6">
@@ -64,11 +57,11 @@ const AdoptionTable: React.FC<{ adoptions?: Adoption[] }> = ({
 						>
 							<input
 								type="checkbox"
-								onChange={toggleAllAdoptions}
 								checked={
 									selectedAdoptions.size ===
 									currentItems.length
 								}
+								onChange={toggleAllAdoptions}
 							/>
 						</th>
 						<th
@@ -87,19 +80,13 @@ const AdoptionTable: React.FC<{ adoptions?: Adoption[] }> = ({
 							className="font-semibold text-[#787878] p-2 md:p-3 truncate"
 							style={{ borderBottom: "1px solid #C7C7C7" }}
 						>
-							견종
-						</th>
-						<th
-							className="font-semibold text-[#787878] p-2 md:p-3 truncate"
-							style={{ borderBottom: "1px solid #C7C7C7" }}
-						>
 							성별
 						</th>
 						<th
 							className="font-semibold text-[#787878] p-2 md:p-3 truncate"
 							style={{ borderBottom: "1px solid #C7C7C7" }}
 						>
-							특성
+							특이사항
 						</th>
 						<th
 							className="font-semibold text-[#787878] p-2 md:p-3 truncate"
@@ -117,102 +104,64 @@ const AdoptionTable: React.FC<{ adoptions?: Adoption[] }> = ({
 				</thead>
 				<tbody>
 					{currentItems.map((adoption) => (
-						<Link
-							href={`/adoption/${adoption.id}`}
-							key={adoption.id}
-							passHref
-							legacyBehavior
+						<tr
+							key={adoption.postId}
+							className="cursor-pointer hover:bg-[#F0E7FF]"
 						>
-							<tr className="cursor-pointer hover:bg-[#F0E7FF]">
-								<td
-									className="p-2 md:p-3"
-									style={{
-										borderBottom: "1px solid #C7C7C7",
-									}}
-									onClick={(e) =>
-										toggleAdoptionSelection(adoption.id, e)
+							<td
+								className="p-2 md:p-3"
+								style={{ borderBottom: "1px solid #C7C7C7" }}
+							>
+								<input
+									type="checkbox"
+									checked={selectedAdoptions.has(
+										adoption.postId
+									)}
+									onChange={() =>
+										toggleAdoptionSelection(adoption.postId)
 									}
-								>
-									<input
-										type="checkbox"
-										checked={selectedAdoptions.has(
-											adoption.id
-										)}
-										onChange={() => {}}
-										onClick={(e) => e.stopPropagation()}
-									/>
-								</td>
-								<td
-									className="p-2 md:p-3 truncate max-w-[100px]"
-									style={{
-										borderBottom: "1px solid #C7C7C7",
-									}}
-								>
-									{adoption.id}
-								</td>
-								<td
-									className="p-2 md:p-3 truncate max-w-[100px]"
-									style={{
-										borderBottom: "1px solid #C7C7C7",
-									}}
-								>
-									{adoption.name}
-								</td>
-								<td
-									className="p-2 md:p-3 truncate max-w-[100px]"
-									style={{
-										borderBottom: "1px solid #C7C7C7",
-									}}
-								>
-									{adoption.breed}
-								</td>
-								<td
-									className="p-2 md:p-3 truncate max-w-[50px]"
-									style={{
-										borderBottom: "1px solid #C7C7C7",
-									}}
-								>
-									{adoption.gender}
-								</td>
-								<td
-									className="p-2 md:p-3 truncate max-w-[150px]"
-									style={{
-										borderBottom: "1px solid #C7C7C7",
-									}}
-								>
-									{adoption.characteristic}
-								</td>
-								<td
-									className="p-2 md:p-3 truncate max-w-[100px]"
-									style={{
-										borderBottom: "1px solid #C7C7C7",
-									}}
-								>
-									{adoption.date}
-								</td>
-								<td
-									className="p-2 md:p-3 truncate max-w-[100px]"
-									style={{
-										borderBottom: "1px solid #C7C7C7",
-									}}
-								>
-									<div
-										style={{
-											display: "inline-flex",
-											alignItems: "center",
-											justifyContent: "center",
-											width: "38.75px",
-											height: "25px",
-											backgroundColor: "#8A50FF",
-											borderRadius: "12.5px",
-											color: "white",
-										}}
-									>
-										{adoption.status}
-									</div>
-								</td>
-							</tr>
-						</Link>
+									onClick={(e) => e.stopPropagation()}
+								/>
+							</td>
+							<td
+								className="p-2 md:p-3 truncate max-w-[100px]"
+								style={{ borderBottom: "1px solid #C7C7C7" }}
+							>
+								{adoption.postId}
+							</td>
+							<td
+								className="p-2 md:p-3 truncate max-w-[100px]"
+								style={{ borderBottom: "1px solid #C7C7C7" }}
+							>
+								{adoption.name}
+							</td>
+							<td
+								className="p-2 md:p-3 truncate max-w-[50px]"
+								style={{ borderBottom: "1px solid #C7C7C7" }}
+							>
+								{adoption.gender}
+							</td>
+							<td
+								className="p-2 md:p-3 truncate max-w-[150px]"
+								style={{ borderBottom: "1px solid #C7C7C7" }}
+							>
+								{adoption.extrat}
+							</td>
+							<td
+								className="p-2 md:p-3 truncate max-w-[100px]"
+								style={{ borderBottom: "1px solid #C7C7C7" }}
+							>
+								{new Date(
+									adoption.createdAt
+								).toLocaleDateString()}
+							</td>
+							<td
+								className="p-2 md:p-3 truncate max-w-[100px]"
+								style={{ borderBottom: "1px solid #C7C7C7" }}
+							>
+								{adoption.adoptStatusCount}
+							</td>
+						</tr>
 					))}
 				</tbody>
 			</table>

@@ -1,11 +1,22 @@
 import React from "react";
+import { AdoptionSummaryResponse } from "@/interfaces/adoption/types";
 
 const AdoptionSummary: React.FC<{
-	total: number;
-	today: number;
-	completion: number;
-	waiting: number;
-}> = ({ total, today, completion, waiting }) => {
+	summaryData: AdoptionSummaryResponse | null;
+}> = ({ summaryData }) => {
+	console.log("AdoptionSummary received data:", summaryData);
+
+	if (!summaryData || !summaryData.result) {
+		return <div>Loading summary data...</div>;
+	}
+
+	const {
+		totalDogsCount,
+		todayAdoptionRequests,
+		completedAdoptions,
+		pendingAdoptions,
+	} = summaryData.result;
+
 	return (
 		<div className="w-full px-4 md:px-0 mb-14">
 			<div className="flex flex-col md:flex-row justify-between items-center py-6 md:py-10">
@@ -27,10 +38,13 @@ const AdoptionSummary: React.FC<{
 			>
 				<div className="bg-mono_black text-black rounded-lg flex flex-wrap justify-around items-center mx-auto">
 					{[
-						{ label: "전체 강아지 수", value: total },
-						{ label: "오늘의 입양 신청", value: today },
-						{ label: "입양 완료", value: completion },
-						{ label: "입양 대기", value: waiting },
+						{ label: "전체 강아지 수", value: totalDogsCount },
+						{
+							label: "오늘의 입양 신청",
+							value: todayAdoptionRequests,
+						},
+						{ label: "입양 완료", value: completedAdoptions },
+						{ label: "입양 대기", value: pendingAdoptions },
 					].map((item, index) => (
 						<div
 							key={index}
