@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import AdoptionPresenter from "./AdoptionPresenter";
-import { getAdoptionSummary, getAdoptions } from "@/api/adoption";
+import { getAdoptionSummary, getAdoptions } from "@/api/adoption/adoption";
 import {
 	AdoptionSummaryResponse,
 	AdoptionResponse,

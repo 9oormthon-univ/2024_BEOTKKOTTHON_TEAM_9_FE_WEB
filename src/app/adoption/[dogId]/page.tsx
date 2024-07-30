@@ -1,57 +1,80 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { adoptions } from "@/constants/adoption/protective_dog";
 import Link from "next/link";
+import { getDogDetails, updateDogDetails } from "@/api/adoption/dogDetails";
+import { DogDetails } from "@/interfaces/adoption/dogDetails";
+import { getApplicantList } from "@/api/adoption/applicantList";
+import { Applicant } from "@/interfaces/adoption/applicantList";
 
 const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 	const dogId = parseInt(params.dogId);
-	const dog = adoptions.find((adoption) => adoption.id === dogId);
+	const [dogData, setDogData] = useState<DogDetails | null>(null);
 	const [isEditing, setIsEditing] = useState(false);
-	const [showPassword, setShowPassword] = useState(false);
+	const [editedDogData, setEditedDogData] = useState<DogDetails | null>(null);
+	const [applicantList, setApplicantList] = useState<Applicant[]>([]);
 
-	if (!dog) {
-		return <div>Dog not found</div>;
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const details = await getDogDetails(dogId);
+				setDogData(details);
+				setEditedDogData(details);
+
+				const applicantList = await getApplicantList(dogId);
+				setApplicantList(applicantList);
+				console.log("Applicant list:", applicantList);
+			} catch (error) {
+				console.error("Failed to fetch data:", error);
+			}
+		};
+
+		fetchData();
+	}, [dogId]);
+
+	if (!dogData) {
+		return <div>Loading...</div>;
 	}
 
-	// 임시 데이터 (실제로는 API에서 가져올 것입니다)
-	const dogData = {
-		...dog,
-		image: "/images/dogImg.png",
-		likes: "간식, 산책",
-		dislikes: "큰 소리",
-		euthanasiaDate: "2024-08-01",
-		introduction: "활발하고 친근한 성격의 강아지입니다.",
-		hashtags: ["#믹스견", "#중형견", "#활발함"],
+	const handleInputChange = (field: keyof DogDetails, value: string) => {
+		setEditedDogData((prev) => (prev ? { ...prev, [field]: value } : null));
 	};
 
-	const [editedDogData, setEditedDogData] = useState<{ [key: string]: any }>(
-		dogData
-	);
-
-	const handleInputChange = (field: string, value: string | string[]) => {
-		setEditedDogData({ ...editedDogData, [field]: value });
+	const handleEditComplete = async () => {
+		if (editedDogData) {
+			try {
+				const updatedDetails = await updateDogDetails(
+					dogId,
+					editedDogData
+				);
+				setDogData(updatedDetails);
+				setIsEditing(false);
+			} catch (error) {
+				console.error("Failed to update dog details:", error);
+			}
+		}
 	};
 
-	const handleEditComplete = () => {
-		// 여기에 API 호출 등의 로직을 추가할 수 있습니다.
-		setIsEditing(false);
+	const renderField = (field: keyof DogDetails) => {
+		if (isEditing) {
+			return (
+				<input
+					type="text"
+					value={editedDogData?.[field]?.toString() || ""}
+					onChange={(e) => handleInputChange(field, e.target.value)}
+					className="w-full p-1 border rounded"
+				/>
+			);
+		}
+		return dogData[field]?.toString() || "";
 	};
-
-	const applicants = [
-		{
-			id: 1,
-			name: "김철수",
-			reason: "가족의 새 구성원으로 맞이하고 싶습니다.",
-		},
-	];
 
 	return (
 		<div className="mx-auto">
 			<div className="flex flex-col items-center justify-center p-4 md:p-10">
 				<div className="w-full">
 					<h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold mb-4 mt-10">
-						{editedDogData.name}
+						{dogData.name}
 					</h1>
 
 					<h2 className="text-xl md:text-xl font-semibold mb-6">
@@ -61,8 +84,8 @@ const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 						<div className="flex flex-col md:flex-row mb-8 w-full">
 							<div className="flex sm:flex-row">
 								<Image
-									src={editedDogData.image}
-									alt={editedDogData.name}
+									src="/images/dogImg.png" // 실제 이미지 URL로 교체해야 합니다
+									alt={dogData.name}
 									width={160}
 									height={160}
 									style={{ objectFit: "cover" }}
@@ -71,9 +94,18 @@ const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 								<table className="md:hidden border-collapse w-full md:w-1/2">
 									<tbody>
 										{[
-											{ label: "이름", field: "name" },
-											{ label: "성별", field: "gender" },
-											{ label: "견종", field: "breed" },
+											{
+												label: "이름",
+												field: "name" as keyof DogDetails,
+											},
+											{
+												label: "성별",
+												field: "gender" as keyof DogDetails,
+											},
+											{
+												label: "견종",
+												field: "breed" as keyof DogDetails,
+											},
 										].map((item) => (
 											<tr
 												key={item.label}
@@ -99,28 +131,7 @@ const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 														border: "1px solid #C7C7C7",
 													}}
 												>
-													{isEditing ? (
-														<input
-															type="text"
-															value={
-																editedDogData[
-																	item.field
-																]
-															}
-															onChange={(e) =>
-																handleInputChange(
-																	item.field,
-																	e.target
-																		.value
-																)
-															}
-															className="w-full p-1 border rounded"
-														/>
-													) : (
-														editedDogData[
-															item.field
-														]
-													)}
+													{renderField(item.field)}
 												</td>
 											</tr>
 										))}
@@ -134,15 +145,15 @@ const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 											{[
 												{
 													label: "이름",
-													field: "name",
+													field: "name" as keyof DogDetails,
 												},
 												{
 													label: "성별",
-													field: "gender",
+													field: "gender" as keyof DogDetails,
 												},
 												{
 													label: "견종",
-													field: "breed",
+													field: "breed" as keyof DogDetails,
 												},
 											].map((item) => (
 												<tr
@@ -168,28 +179,8 @@ const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 															border: "1px solid #C7C7C7",
 														}}
 													>
-														{isEditing ? (
-															<input
-																type="text"
-																value={
-																	editedDogData[
-																		item
-																			.field
-																	]
-																}
-																onChange={(e) =>
-																	handleInputChange(
-																		item.field,
-																		e.target
-																			.value
-																	)
-																}
-																className="w-full p-1 border rounded"
-															/>
-														) : (
-															editedDogData[
-																item.field
-															]
+														{renderField(
+															item.field
 														)}
 													</td>
 												</tr>
@@ -201,23 +192,23 @@ const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 											{[
 												{
 													label: "좋아하는 것",
-													field: "likes",
+													field: "likes" as keyof DogDetails,
 												},
 												{
 													label: "싫어하는 것",
-													field: "dislikes",
+													field: "hates" as keyof DogDetails,
 												},
 												{
-													label: "예상 안락사 일자",
-													field: "euthanasiaDate",
+													label: "성격",
+													field: "personality" as keyof DogDetails,
 												},
 												{
-													label: "한줄소개",
-													field: "introduction",
+													label: "발견 장소",
+													field: "findingLocation" as keyof DogDetails,
 												},
 												{
-													label: "해시태그",
-													field: "hashtags",
+													label: "추가 정보",
+													field: "extra" as keyof DogDetails,
 												},
 											].map((item) => (
 												<tr
@@ -244,47 +235,8 @@ const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 															border: "1px solid #C7C7C7",
 														}}
 													>
-														{isEditing ? (
-															<input
-																type="text"
-																value={
-																	item.field ===
-																	"hashtags"
-																		? editedDogData[
-																				item
-																					.field
-																		  ].join(
-																				" "
-																		  )
-																		: editedDogData[
-																				item
-																					.field
-																		  ]
-																}
-																onChange={(e) =>
-																	handleInputChange(
-																		item.field,
-																		item.field ===
-																			"hashtags"
-																			? e.target.value.split(
-																					" "
-																			  )
-																			: e
-																					.target
-																					.value
-																	)
-																}
-																className="w-full p-1 border rounded"
-															/>
-														) : item.field ===
-														  "hashtags" ? (
-															editedDogData[
-																item.field
-															].join(" ")
-														) : (
-															editedDogData[
-																item.field
-															]
+														{renderField(
+															item.field
 														)}
 													</td>
 												</tr>
@@ -309,7 +261,7 @@ const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 						</button>
 					</div>
 					<h2 className="text-2xl md:text-3xl font-semibold mb-4">
-						입양신청자 정보 : 총 {applicants.length}명
+						입양신청자 정보 : 총 {applicantList.length}명
 					</h2>
 
 					<div className=" overflow-x-auto">
@@ -347,25 +299,25 @@ const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 								</tr>
 							</thead>
 							<tbody>
-								{applicants.map((applicant) => (
+								{applicantList.map((applicant) => (
 									<tr
-										key={applicant.id}
+										key={applicant.memberId}
 										style={{
 											borderBottom: "1px solid #C7C7C7",
 										}}
 									>
 										<td className="py-2 px-4 truncate max-w-[90px] text-center">
-											{applicant.id}
+											{applicant.memberId}
 										</td>
 										<td className="py-2 px-4 truncate max-w-[90px] text-center">
 											{applicant.name}
 										</td>
 										<td className="py-2 px-4 truncate max-w-[90px] text-center">
-											{applicant.reason}
+											{applicant.reasonForAdoption}
 										</td>
 										<td className="py-2 px-4 truncate max-w-[90px] text-center">
 											<Link
-												href={`/adoption/${dogId}/${applicant.id}`}
+												href={`/adoption/${dogId}/${applicant.memberId}`}
 											>
 												<button className="border border-[#D4CEE1] bg-white text-[#5326AC] py-1 px-3 rounded hover:bg-[#F0E7FF] whitespace-nowrap">
 													보기

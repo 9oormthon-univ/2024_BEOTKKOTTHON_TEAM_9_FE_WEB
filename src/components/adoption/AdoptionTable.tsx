@@ -104,64 +104,87 @@ const AdoptionTable: React.FC<{ adoptions: AdoptionItem[] }> = ({
 				</thead>
 				<tbody>
 					{currentItems.map((adoption) => (
-						<tr
+						<Link
+							href={`/adoption/${adoption.postId}`}
 							key={adoption.postId}
-							className="cursor-pointer hover:bg-[#F0E7FF]"
+							passHref
+							legacyBehavior
 						>
-							<td
-								className="p-2 md:p-3"
-								style={{ borderBottom: "1px solid #C7C7C7" }}
+							<tr
+								key={adoption.postId}
+								className="cursor-pointer hover:bg-[#F0E7FF]"
 							>
-								<input
-									type="checkbox"
-									checked={selectedAdoptions.has(
-										adoption.postId
-									)}
-									onChange={() =>
-										toggleAdoptionSelection(adoption.postId)
-									}
-									onClick={(e) => e.stopPropagation()}
-								/>
-							</td>
-							<td
-								className="p-2 md:p-3 truncate max-w-[100px]"
-								style={{ borderBottom: "1px solid #C7C7C7" }}
-							>
-								{adoption.postId}
-							</td>
-							<td
-								className="p-2 md:p-3 truncate max-w-[100px]"
-								style={{ borderBottom: "1px solid #C7C7C7" }}
-							>
-								{adoption.name}
-							</td>
-							<td
-								className="p-2 md:p-3 truncate max-w-[50px]"
-								style={{ borderBottom: "1px solid #C7C7C7" }}
-							>
-								{adoption.gender}
-							</td>
-							<td
-								className="p-2 md:p-3 truncate max-w-[150px]"
-								style={{ borderBottom: "1px solid #C7C7C7" }}
-							>
-								{adoption.extrat}
-							</td>
-							<td
-								className="p-2 md:p-3 truncate max-w-[100px]"
-								style={{ borderBottom: "1px solid #C7C7C7" }}
-							>
-								{new Date(
-									adoption.createdAt
-								).toLocaleDateString()}
-							</td>
-							<td
-								className="p-2 md:p-3 truncate max-w-[100px]"
-								style={{ borderBottom: "1px solid #C7C7C7" }}
-							>
-								{adoption.adoptStatusCount}
-							</td>
-						</tr>
+								<td
+									className="p-2 md:p-3"
+									style={{
+										borderBottom: "1px solid #C7C7C7",
+									}}
+								>
+									<input
+										type="checkbox"
+										checked={selectedAdoptions.has(
+											adoption.postId
+										)}
+										onChange={() =>
+											toggleAdoptionSelection(
+												adoption.postId
+											)
+										}
+										onClick={(e) => e.stopPropagation()}
+									/>
+								</td>
+								<td
+									className="p-2 md:p-3 truncate max-w-[100px]"
+									style={{
+										borderBottom: "1px solid #C7C7C7",
+									}}
+								>
+									{adoption.postId}
+								</td>
+								<td
+									className="p-2 md:p-3 truncate max-w-[100px]"
+									style={{
+										borderBottom: "1px solid #C7C7C7",
+									}}
+								>
+									{adoption.name}
+								</td>
+								<td
+									className="p-2 md:p-3 truncate max-w-[50px]"
+									style={{
+										borderBottom: "1px solid #C7C7C7",
+									}}
+								>
+									{adoption.gender}
+								</td>
+								<td
+									className="p-2 md:p-3 truncate max-w-[150px]"
+									style={{
+										borderBottom: "1px solid #C7C7C7",
+									}}
+								>
+									{adoption.extrat}
+								</td>
+								<td
+									className="p-2 md:p-3 truncate max-w-[100px]"
+									style={{
+										borderBottom: "1px solid #C7C7C7",
+									}}
+								>
+									{new Date(
+										adoption.createdAt
+									).toLocaleDateString()}
+								</td>
+								<td
+									className="p-2 md:p-3 truncate max-w-[100px]"
+									style={{
+										borderBottom: "1px solid #C7C7C7",
+									}}
+								>
+									{adoption.adoptStatusCount}
+								</td>
+							</tr>
+						</Link>
 					))}
 				</tbody>
 			</table>
