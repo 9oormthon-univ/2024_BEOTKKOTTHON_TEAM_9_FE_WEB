@@ -6,10 +6,15 @@ import {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
+const postId = "1";
+const adoptId = "1";
+
 export const getAdoptionSummary =
 	async (): Promise<AdoptionSummaryResponse> => {
 		try {
-			const response = await axios.get(`${API_URL}/adoption/summary`);
+			const response = await axios.get(
+				`${API_URL}/api/v1/shelter/${postId}/applicants/${adoptId}`
+			);
 			return response.data;
 		} catch (error) {
 			console.error("Failed to fetch adoption summary:", error);

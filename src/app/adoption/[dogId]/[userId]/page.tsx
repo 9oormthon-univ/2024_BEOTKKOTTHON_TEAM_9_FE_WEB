@@ -1,5 +1,13 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import {
+	fetchApplicantDetail,
+	fetchChatHistory,
+} from "../../../../api/adoption/applicantDetail";
+import {
+	ApplicantDetailResponse,
+	ChatMessage,
+} from "../../../../interfaces/adoption/applicantDetail";
 
 const customShadowStyle = {
 	boxShadow: "inset 0 0 2px rgba(0, 0, 0, 0.25)",
@@ -10,20 +18,41 @@ const ApplicantDetailPage = ({
 }: {
 	params: { dogId: string; userId: string };
 }) => {
-	// 여기에서 실제 데이터를 가져오는 로직을 구현할 수 있습니다.
-	const applicantData = {
-		name: "정민지",
-		petExperience: "네",
-		petType: "강아지",
-		currentPet: "네",
-		adoptionReason: "가족의 새 구성원으로 맞이하고 싶습니다.",
-	};
+	const [applicantData, setApplicantData] = useState<
+		ApplicantDetailResponse["result"] | null
+	>(null);
+	const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
+	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+
+	useEffect(() => {
+		const fetchData = async () => {
+			try {
+				const [detailData, chatData] = await Promise.all([
+					fetchApplicantDetail(params.dogId, params.userId),
+					fetchChatHistory(params.dogId, params.userId),
+				]);
+				setApplicantData(detailData.result);
+				setChatHistory(chatData.result);
+				setIsLoading(false);
+			} catch (err) {
+				setError("Failed to fetch data");
+				setIsLoading(false);
+			}
+		};
+
+		fetchData();
+	}, [params.dogId, params.userId]);
+
+	if (isLoading) return <div>Loading...</div>;
+	if (error) return <div>Error: {error}</div>;
+	if (!applicantData) return <div>No data available</div>;
 
 	return (
 		<div className="mx-auto p-4 md:p-10 mt-10">
 			<h1 className="text-2xl md:text-3xl font-semibold mb-8">
 				입양 신청자 정보 &gt;{" "}
-				<span className="text-[#5326AC]">{applicantData.name}</span>
+				<span className="text-[#5326AC]">{applicantData.userName}</span>
 			</h1>
 
 			<hr className="border-t-2 border-[#D4CEE1] opacity-30 mb-6" />
@@ -48,7 +77,7 @@ const ApplicantDetailPage = ({
 							className="bg-[#FCFBFF] p-1 rounded min-w-[130px] text-center"
 							style={customShadowStyle}
 						>
-							{applicantData.petExperience}
+							{applicantData.application.petHistoryAnswer}
 						</div>
 					</div>
 					<div className="mb-4 flex items-center justify-between">
@@ -59,7 +88,7 @@ const ApplicantDetailPage = ({
 							className="bg-[#FCFBFF] p-1 rounded min-w-[130px] text-center"
 							style={customShadowStyle}
 						>
-							{applicantData.petType}
+							{applicantData.application.petHistory}
 						</div>
 					</div>
 					<div className="mb-4 flex items-center justify-between">
@@ -70,11 +99,11 @@ const ApplicantDetailPage = ({
 							className="bg-[#FCFBFF] p-1 rounded min-w-[130px] text-center"
 							style={customShadowStyle}
 						>
-							{applicantData.currentPet}
+							{applicantData.application.currentPetAnswer}
 						</div>
 					</div>
-					<div className="bg-[#FCFBFF] p-2 rounded shadow-inner h-48">
-						{applicantData.adoptionReason}
+					<div className="bg-[#FCFBFF] p-2 rounded shadow-inner h-48 overflow-auto">
+						{applicantData.application.currentPet}
 					</div>
 					<div className="mb-4 flex items-center justify-between mt-4">
 						<label className="block mb-2 font-semibold">
@@ -84,7 +113,7 @@ const ApplicantDetailPage = ({
 							className="bg-[#FCFBFF] p-1 rounded min-w-[130px] text-center"
 							style={customShadowStyle}
 						>
-							{applicantData.petExperience}
+							{applicantData.application.familyAnswer}
 						</div>
 					</div>
 					<div className="mb-4 flex items-center justify-between">
@@ -95,7 +124,7 @@ const ApplicantDetailPage = ({
 							className="bg-[#FCFBFF] p-1 rounded min-w-[130px] text-center"
 							style={customShadowStyle}
 						>
-							{applicantData.petExperience}
+							{applicantData.application.familyAgreement}
 						</div>
 					</div>
 					<div className="mb-4 flex items-center justify-between">
@@ -106,7 +135,7 @@ const ApplicantDetailPage = ({
 							className="bg-[#FCFBFF] p-1 rounded min-w-[130px] text-center"
 							style={customShadowStyle}
 						>
-							{applicantData.petExperience}
+							{applicantData.application.dogNewsAnswer}
 						</div>
 					</div>
 				</div>
@@ -116,8 +145,8 @@ const ApplicantDetailPage = ({
 						<label className="block mb-2 font-semibold">
 							입양사유
 						</label>
-						<div className="bg-[#FCFBFF] p-2 rounded shadow-inner h-48">
-							{applicantData.adoptionReason}
+						<div className="bg-[#FCFBFF] p-2 rounded shadow-inner h-48 overflow-auto">
+							{applicantData.application.reasonForAdoption}
 						</div>
 					</div>
 				</div>
@@ -133,8 +162,27 @@ const ApplicantDetailPage = ({
 					대화 내역
 				</h2>
 			</div>
-			<div className="bg-[#FCFBFF] p-2 rounded shadow-inner h-48">
-				{applicantData.adoptionReason}
+			<div className="bg-[#F0F2F5] p-4 rounded shadow-inner h-96 overflow-auto">
+				{Array.isArray(chatHistory) &&
+					chatHistory.map((message, index) => (
+						<div key={index} className="mb-4">
+							<div className="flex justify-end mb-2">
+								<div className="bg-blue-500 text-white rounded-lg py-2 px-4 max-w-[70%]">
+									{message.input}
+								</div>
+							</div>
+							<div className="flex justify-start">
+								<div className="bg-white rounded-lg py-2 px-4 max-w-[70%] shadow">
+									<p className="text-gray-700">
+										{message.response}
+									</p>
+									<p className="text-xs text-gray-500 mt-1">
+										강아지
+									</p>
+								</div>
+							</div>
+						</div>
+					))}
 			</div>
 		</div>
 	);
