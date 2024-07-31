@@ -1,12 +1,5 @@
-import React from "react";
-import AdoptionStatus from "../../components/adoption/AdoptionStatus";
+import AdoptionContainer from "./AdoptionContainer";
 
-const AdoptionPage = () => {
-	return (
-    <div className="w-full">
-      <AdoptionStatus />
-    </div>
-  );
-};
-
-export default AdoptionPage;
+export default function AdoptionPage() {
+	return <AdoptionContainer />;
+}

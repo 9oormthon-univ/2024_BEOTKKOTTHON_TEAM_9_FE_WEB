@@ -1,40 +1,52 @@
+"use client";
+
 import "../styles/reset.css";
 import "../styles/globals.css";
 import clsx from "clsx";
-import Script from "next/script";
+import { usePathname } from "next/navigation";
 import { NotoSans } from "./fonts";
 import VerticalNavigation from "../components/navigation";
 import Header from "../components/header";
+import { NavigationProvider } from "../context/NavigationContext";
 
 export default function RootLayout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
+	const pathname = usePathname();
+	const notNaviPage =
+		pathname === "/login" ||
+		pathname === "/signup" ||
+		pathname === "/signup/step2" ||
+		pathname === "/signup/step3" ||
+		pathname === "/signup/complete";
+
 	return (
-		<html lang="ko" className="flex w-screen h-screen bg-[#fff]">
+		<html lang="ko" className="w-full h-full bg-[#fff]">
 			<body
 				className={clsx(
-					[NotoSans.className],
-					"min-h-screen w-full shadow-xl bg-[#FFFFFF] text-black flex flex-col"
+					"pretendard",
+					"min-h-screen w-full bg-[#FFFFFF] text-black flex flex-col"
 				)}
 			>
-				<Header />
-				<div className="flex flex-grow overflow-hidden">
-					<VerticalNavigation />
-					{/* Main content area, dynamically adjusting for the header and navigation width */}
-					{/* Adjusting margin-left to accommodate navigation width at different screen sizes */}
-					<div
-						className="flex-grow mt-12"
-						style={{
-							marginLeft: "calc(5rem + 18%)",
-							marginRight: "2%",
-							paddingTop: "1rem",
-						}}
-					>
-						{children}
-					</div>
-				</div>
+				{notNaviPage ? (
+					children
+				) : (
+					<NavigationProvider>
+						<div className="flex flex-col flex-grow overflow-hidden">
+							<div className="relative z-20">
+								<Header />
+							</div>
+							<div className="flex overflow-hidden z-10">
+								<VerticalNavigation />
+								<main className="flex-grow lg:ml-64 z-0">
+									{children}
+								</main>
+							</div>
+						</div>
+					</NavigationProvider>
+				)}
 			</body>
 		</html>
 	);

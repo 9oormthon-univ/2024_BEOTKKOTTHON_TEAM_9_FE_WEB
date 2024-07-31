@@ -1,7 +1,5 @@
-import React from "react";
+import LoginContainer from "./LoginContainer";
 
-const LoginPage = () => {
-	return <div className="w-full">로그인 페이지</div>;
-};
-
-export default LoginPage;
+export default function LoginPage() {
+	return <LoginContainer />;
+}
