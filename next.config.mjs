@@ -1,4 +1,10 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+// next.config.js
 
-export default nextConfig;
+export async function rewrites() {
+	return [
+		{
+			source: "/api/:path*",
+			destination: `${process.env.NEXT_PUBLIC_API_URL}/api/:path*`,
+		},
+	];
+}
