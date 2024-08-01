@@ -13,7 +13,7 @@ export const getAdoptionSummary =
 	async (): Promise<AdoptionSummaryResponse> => {
 		try {
 			const response = await axios.get(
-				`${API_URL}/api/v1/shelter/${postId}/applicants/${adoptId}`
+				`${API_URL}}/api/v1/shelter/17/adoptions`
 			);
 			return response.data;
 		} catch (error) {
@@ -24,7 +24,9 @@ export const getAdoptionSummary =
 
 export const getAdoptions = async (): Promise<AdoptionItem[]> => {
 	try {
-		const response = await axios.get(`${API_URL}/adoptions`);
+		const response = await axios.get(
+			`${API_URL}/api/v1/shelter/17/bom-lists`
+		);
 		return response.data;
 	} catch (error) {
 		console.error("Failed to fetch adoptions:", error);

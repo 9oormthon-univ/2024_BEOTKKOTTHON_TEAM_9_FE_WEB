@@ -13,6 +13,7 @@ export interface DogPost {
 }
 
 export interface DogDetails {
+	image: DogDetails | null;
 	infoId: number;
 	postId: number;
 	name: string;
