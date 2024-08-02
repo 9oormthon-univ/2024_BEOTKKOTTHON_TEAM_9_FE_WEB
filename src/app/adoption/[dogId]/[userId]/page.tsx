@@ -27,7 +27,7 @@ const ApplicantDetailPage = ({
 
 	let accessToken = "";
 	if (typeof window !== "undefined") {
-		const accessToken = localStorage.getItem("accessToken") ?? "";
+		accessToken = localStorage.getItem("accessToken") ?? "";
 	}
 
 	useEffect(() => {
