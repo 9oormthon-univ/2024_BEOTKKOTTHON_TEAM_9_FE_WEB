@@ -19,6 +19,8 @@ export const useAuth = () => {
 			// 로그인 성공 처리 (예: 토큰 저장)
 			localStorage.setItem("accessToken", data.result.accessToken);
 			localStorage.setItem("memberId", data.result.memberId);
+			localStorage.setItem("email", data.result.email);
+			localStorage.setItem("shelterName", data.result.name);
 			console.log("로그인 성공:", localStorage.getItem("accessToken"));
 			router.push("/adoption");
 		} catch (err) {

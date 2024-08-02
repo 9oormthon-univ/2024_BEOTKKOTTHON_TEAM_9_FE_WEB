@@ -6,7 +6,7 @@ import { FiMenu } from "react-icons/fi";
 
 const Header = () => {
 	const pathname = usePathname();
-	const userName = "사용자 이름";
+	const userEmail = localStorage.getItem("email");
 	const { toggleNav } = useNavigation();
 
 	const navigationName: { [key: string]: string } = {
@@ -25,7 +25,7 @@ const Header = () => {
 				<Image
 					src="/svg/navi/logo.svg"
 					alt="Logo"
-					width={207}
+					width={30}
 					height={30}
 				/>
 			</div>
@@ -33,7 +33,7 @@ const Header = () => {
 				{currentNavigationName}
 			</div>
 			<div className="flex-1 text-right flex items-center justify-end">
-				<span className="mr-4">{userName}</span>
+				<span className="mr-4">{userEmail}</span>
 				<button onClick={toggleNav} className="lg:hidden">
 					<FiMenu size={24} color="#5326AC" />
 				</button>

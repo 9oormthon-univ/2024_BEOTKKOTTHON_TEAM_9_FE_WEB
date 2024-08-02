@@ -16,6 +16,7 @@ const selectStyle = "bg-[#8A50FF] text-white font-bold";
 const VerticalNavigation = () => {
 	const pathname = usePathname();
 	const { isNavOpen, toggleNav } = useNavigation();
+	const shelterName = localStorage.getItem("shelterName");
 
 	const NavigationList: NavItem[] = [
 		{
@@ -48,7 +49,7 @@ const VerticalNavigation = () => {
 			>
 				<div className="p-5">
 					<div className="text-xl font-bold mt-20 ml-10 text-[#8A50FF]">
-						보호소 이름
+						{shelterName}
 					</div>
 				</div>
 				<ul className="mt-5">
