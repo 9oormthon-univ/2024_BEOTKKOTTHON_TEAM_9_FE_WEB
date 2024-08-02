@@ -7,7 +7,6 @@ const OrganizationInfoPage = () => {
 	const [formData, setFormData] = useState({
 		담당자: "정민지",
 		이메일: "example@naver.com",
-		비밀번호: "12345",
 		보조이메일: "sub-example@naver.com",
 		기관번호: "02-1234-5678",
 	});
