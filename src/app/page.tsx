@@ -1,5 +1,7 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Main = () => {
 	const chatRef1 = useRef<HTMLImageElement>(null);
@@ -70,18 +72,20 @@ const Main = () => {
 					alt="BomMeong Logo"
 					style={{ height: "40px" }}
 				/>
-				<button
-					style={{
-						backgroundColor: "#9763FF",
-						color: "white",
-						border: "none",
-						borderRadius: "37px",
-						padding: "10px 20px",
-						cursor: "pointer",
-					}}
-				>
-					로그인
-				</button>
+				<Link href="/login" passHref>
+					<button
+						style={{
+							backgroundColor: "#9763FF",
+							color: "white",
+							border: "none",
+							borderRadius: "37px",
+							padding: "10px 20px",
+							cursor: "pointer",
+						}}
+					>
+						로그인
+					</button>
+				</Link>
 			</header>
 
 			<div className="w-full px-4 lg:px-0 max-w-6xl mx-auto">
@@ -94,10 +98,11 @@ const Main = () => {
 				<h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-12">
 					새로운 입양 서비스
 				</h1>
-
-				<button className="bg-[#A273FF] text-white border-none rounded-full py-3 px-6 text-lg md:text-xl cursor-pointer mb-24">
-					기관 정보 등록하기
-				</button>
+				<Link href="/signup" passHref>
+					<button className="bg-[#A273FF] text-white border-none rounded-full py-3 px-6 text-lg md:text-xl cursor-pointer mb-24">
+						기관 정보 등록하기
+					</button>
+				</Link>
 			</div>
 
 			<div className="relative w-full max-w-md mx-auto mb-48">
