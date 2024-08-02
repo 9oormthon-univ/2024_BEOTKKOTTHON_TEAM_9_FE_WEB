@@ -163,3 +163,17 @@
       transform: translate(-50%, -50%) scale(0.6);
   }
 }
+
+@media (min-width: 640px) {
+  .dog-image-container {
+    max-width: 200px;
+    height: 200px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .dog-image-container {
+    max-width: 240px;
+    height: 240px;
+  }
+}

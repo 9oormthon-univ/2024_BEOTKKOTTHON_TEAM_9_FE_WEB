@@ -9,11 +9,11 @@ export interface ApiResponse<T> {
 export interface DogPost {
 	postId: number;
 	shelterId: number;
+	imageUrl: string;
 	bomInfo: DogDetails;
 }
 
 export interface DogDetails {
-	image: DogDetails | null;
 	infoId: number;
 	postId: number;
 	name: string;
@@ -24,4 +24,5 @@ export interface DogDetails {
 	likes: string;
 	hates: string;
 	extra: string;
+	hashtags: string;
 }

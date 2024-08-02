@@ -3,13 +3,14 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getDogDetails, updateDogDetails } from "@/api/adoption/dogDetails";
-import { DogDetails } from "@/interfaces/adoption/dogDetails";
+import { DogDetails, DogPost } from "@/interfaces/adoption/dogDetails";
 import { getApplicantList } from "@/api/adoption/applicantList";
 import { Applicant } from "@/interfaces/adoption/applicantList";
 
 const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 	const dogId = parseInt(params.dogId);
 	const [dogData, setDogData] = useState<DogDetails | null>(null);
+	const [rawData, setRawData] = useState<DogPost | null>(null);
 	const [isEditing, setIsEditing] = useState(false);
 	const [editedDogData, setEditedDogData] = useState<DogDetails | null>(null);
 	const [applicantList, setApplicantList] = useState<Applicant[]>([]);
@@ -18,25 +19,28 @@ const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const details = await getDogDetails(dogId);
+				const fetchedRawData = await getDogDetails(dogId);
+				console.log("Dog details:", fetchedRawData);
+				const details = fetchedRawData.bomInfo;
+				setRawData(fetchedRawData);
 				setDogData(details);
 				setEditedDogData(details);
 
-				const applicantList = await getApplicantList(
+				const fetchedApplicantList = await getApplicantList(
 					dogId,
 					accessToken
 				);
-				setApplicantList(applicantList);
-				console.log("Applicant list:", applicantList);
+				setApplicantList(fetchedApplicantList);
+				console.log("Applicant list:", fetchedApplicantList);
 			} catch (error) {
 				console.error("Failed to fetch data:", error);
 			}
 		};
 
 		fetchData();
-	}, [dogId]);
+	}, [dogId, accessToken]);
 
-	if (!dogData) {
+	if (!dogData || !rawData) {
 		return <div>Loading...</div>;
 	}
 
@@ -70,6 +74,7 @@ const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 				/>
 			);
 		}
+
 		return dogData[field]?.toString() || "";
 	};
 
@@ -87,14 +92,18 @@ const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 					<div className="flex-1 w-full">
 						<div className="flex flex-col md:flex-row mb-8 w-full">
 							<div className="flex sm:flex-row">
-								<Image
-									src="/images/dogImg.png" // 실제 이미지 URL로 교체해야 합니다
-									alt={dogData.name}
-									width={160}
-									height={160}
-									style={{ objectFit: "cover" }}
-									className="mr-4"
-								/>
+								<div className="text-center ">
+									{rawData.imageUrl && (
+										<Image
+											src={rawData.imageUrl} // 실제 이미지 URL로 교체해야 합니다
+											alt={dogData.name}
+											width={160}
+											height={160}
+											style={{ objectFit: "cover" }}
+											className="text-center w-full h-[160px] relative"
+										/>
+									)}
+								</div>
 								<table className="md:hidden border-collapse w-full md:w-1/2">
 									<tbody>
 										{[

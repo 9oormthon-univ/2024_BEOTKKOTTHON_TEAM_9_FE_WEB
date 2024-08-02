@@ -12,7 +12,7 @@ let token = "";
 if (typeof window !== "undefined") {
 	token = localStorage.getItem("accessToken") || "";
 }
-export async function getDogDetails(dogId: number): Promise<DogDetails> {
+export async function getDogDetails(dogId: number): Promise<DogPost> {
 	const response = await fetch(`${API_URL}/api/v1/post/${dogId}`, {
 		method: "GET",
 		headers: {
@@ -31,7 +31,7 @@ export async function getDogDetails(dogId: number): Promise<DogDetails> {
 		throw new Error(`API Error: ${data.code}`);
 	}
 
-	return data.result.bomInfo;
+	return data.result;
 }
 export async function updateDogDetails(
 	dogId: number,
