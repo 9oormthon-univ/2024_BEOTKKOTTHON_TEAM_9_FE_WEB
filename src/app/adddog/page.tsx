@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FiDownload } from "react-icons/fi";
 import { addDog } from "@/api/adoption/addDog";
-import { AddDogRequest } from "@/interfaces/adoption/addDog";
+import { AddDogRequest, AddDogResponse } from "@/interfaces/adoption/addDog";
 
 const customShadowStyle = {
 	boxShadow: "0 0 2px rgba(0, 0, 0, 0.25)",
@@ -15,18 +15,22 @@ const AddDogPage = () => {
 	const [gender, setGender] = useState("");
 	const [isMixed, setIsMixed] = useState(false);
 	const [breedType, setBreedType] = useState("");
-	const [euthanasiaDate, setEuthanasiaDate] = useState<Date | null>(
-		new Date()
-	);
 	const [image, setImage] = useState<string | null>(null);
 	const [likes, setLikes] = useState("");
 	const [dislikes, setDislikes] = useState("");
 	const [translation, setTranslation] = useState("");
 	const [hashtags, setHashtags] = useState<string[]>([]);
+	const [expectedEuthanasiaDate, setExpectedEuthanasiaDate] = useState<Date>(
+		new Date()
+	);
+
+	const handleExpectedEuthanasiaDateChange = (date: Date | null) => {
+		setExpectedEuthanasiaDate(date || new Date());
+	};
 	const [age, setAge] = useState("");
 	const [personality, setPersonality] = useState("");
 	const [extra, setExtra] = useState("");
-	const [findingLocation, setFindingLocation] = useState("");
+	const memberId = localStorage.getItem("memberId");
 
 	const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files ? event.target.files[0] : null;
@@ -55,7 +59,8 @@ const AddDogPage = () => {
 		e.preventDefault();
 
 		const dogData: AddDogRequest = {
-			shelterId: 3, // 고정값
+			shelterId: memberId ? parseInt(memberId) : 0,
+			expectedEuthanasiaDate: expectedEuthanasiaDate || new Date(),
 			bomInfo: {
 				name,
 				age,
@@ -65,7 +70,7 @@ const AddDogPage = () => {
 				extra,
 				likes,
 				hates: dislikes,
-				findingLocation,
+				hashtags,
 			},
 			uploadFile: image
 				? new File([image], "dogImage.png", { type: "image/png" })
@@ -73,8 +78,8 @@ const AddDogPage = () => {
 		};
 
 		try {
-			const response = await addDog(dogData);
-			console.log(response);
+			const response = (await addDog(dogData)) as AddDogResponse;
+
 			if (response.code === "0000") {
 				alert("강아지 정보가 성공적으로 추가되었습니다.");
 				console.log(response.data);
@@ -182,11 +187,12 @@ const AddDogPage = () => {
 						예정 안락사 일자
 					</label>
 					<DatePicker
-						selected={euthanasiaDate}
-						onChange={(date) => setEuthanasiaDate(date)}
+						selected={expectedEuthanasiaDate} // 선택된 날짜를 상태 변수에서 가져옴
+						onChange={(date) =>
+							setExpectedEuthanasiaDate(date as Date)
+						} // 날짜가 변경되면 상태 업데이트
 						className="w-full sm:w-3/4 p-2 rounded max-w-[626px]"
-						style={customShadowStyle}
-						dateFormat="yyyy/MM/dd"
+						dateFormat="yyyy-MM-dd" // 날짜 형식을 'yyyy-MM-dd'로 설정
 					/>
 				</div>
 
@@ -282,20 +288,7 @@ const AddDogPage = () => {
 					/>
 				</div>
 
-				<div className="flex flex-col sm:flex-row sm:items-center">
-					<label className="block mb-2 sm:mb-0 sm:w-1/4 font-semibold">
-						발견된 곳
-					</label>
-					<input
-						type="text"
-						value={findingLocation}
-						onChange={(e) => setFindingLocation(e.target.value)}
-						className="w-full sm:w-3/4 p-2 rounded max-w-[626px]"
-						style={customShadowStyle}
-					/>
-				</div>
-
-				{/* <div className="flex flex-col sm:flex-row sm:items-start">
+				<div className="flex flex-col sm:flex-row sm:items-start">
 					<label className="block mb-2 sm:mb-0 sm:w-1/4 font-semibold">
 						해시태그
 					</label>
@@ -318,7 +311,7 @@ const AddDogPage = () => {
 							))}
 						</div>
 					</div>
-				</div> */}
+				</div>
 			</div>
 
 			<div className="mt-12 text-center ">

@@ -19,7 +19,6 @@ export interface BomInfo {
 	personality: string;
 	likes: string;
 	hates: string;
-	findingLocation: string;
 	extra: string;
 }
 
@@ -39,19 +38,19 @@ export interface AdoptionResponse {
 			personality: string;
 			likes: string;
 			hates: string;
-			findingLocation: string;
 			extra: string;
 		};
 	};
 }
 
 export interface AdoptionItem {
-	postId: number; // Long을 TypeScript에서는 number로 처리합니다.
+	postId: number;
 	name: string;
 	gender: string;
 	extra: string;
-	createdAt: string; // LocalDateTime은 문자열로 받아 처리합니다.
+	createdAt: string;
 	adoptStatusCount: number;
+	result: {};
 }
 
 export interface AdoptionSummaryResponse {

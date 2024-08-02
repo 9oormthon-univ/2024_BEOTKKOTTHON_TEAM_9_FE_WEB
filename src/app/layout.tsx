@@ -20,7 +20,7 @@ export default function RootLayout({
 		pathname === "/signup" ||
 		pathname === "/signup/step2" ||
 		pathname === "/signup/step3" ||
-		pathname === "/signup/complete"||
+		pathname === "/signup/complete" ||
 		pathname === "/main";
 
 	return (

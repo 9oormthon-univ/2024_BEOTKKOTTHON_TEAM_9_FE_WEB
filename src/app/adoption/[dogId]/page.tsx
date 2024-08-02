@@ -207,7 +207,7 @@ const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 													field: "personality" as keyof DogDetails,
 												},
 												{
-													label: "발견 장소",
+													label: "해시태그",
 													field: "findingLocation" as keyof DogDetails,
 												},
 												{

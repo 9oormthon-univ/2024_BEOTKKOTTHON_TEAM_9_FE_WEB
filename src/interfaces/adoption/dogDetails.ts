@@ -23,6 +23,5 @@ export interface DogDetails {
 	personality: string;
 	likes: string;
 	hates: string;
-	findingLocation: string;
 	extra: string;
 }

@@ -12,6 +12,18 @@
         "isolatedModules": true,
         "jsx": "preserve",
         "incremental": true,
+        "noImplicitAny": false,
+        "strictNullChecks": false,
+        "strictFunctionTypes": false,
+        "strictBindCallApply": false,
+        "strictPropertyInitialization": false,
+        "noImplicitThis": false,
+        "alwaysStrict": false,
+        "noEmitOnError": false,
+        "checkJs": false,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        
         "plugins": [
             {
                 "name": "next"
