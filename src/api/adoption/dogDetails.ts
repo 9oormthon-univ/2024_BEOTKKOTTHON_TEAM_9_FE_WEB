@@ -7,7 +7,11 @@ import {
 } from "@/interfaces/adoption/dogDetails";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-const token = localStorage.getItem("accessToken");
+
+let token = "";
+if (typeof window !== "undefined") {
+	token = localStorage.getItem("accessToken") || "";
+}
 export async function getDogDetails(dogId: number): Promise<DogDetails> {
 	const response = await fetch(`${API_URL}/api/v1/post/${dogId}`, {
 		method: "GET",

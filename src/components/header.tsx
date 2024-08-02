@@ -3,11 +3,21 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useNavigation } from "../context/NavigationContext";
 import { FiMenu } from "react-icons/fi";
+import { useEffect, useState } from "react";
 
 const Header = () => {
 	const pathname = usePathname();
-	const userEmail = localStorage.getItem("email");
+	const [userEmail, setUserEmail] = useState<string | null>(null);
 	const { toggleNav } = useNavigation();
+
+	useEffect(() => {
+		// 클라이언트 사이드에서만 localStorage에 접근
+		const email =
+			typeof window !== "undefined"
+				? localStorage.getItem("email")
+				: null;
+		setUserEmail(email);
+	}, []);
 
 	const navigationName: { [key: string]: string } = {
 		"/adoption": "입양신청 관리",

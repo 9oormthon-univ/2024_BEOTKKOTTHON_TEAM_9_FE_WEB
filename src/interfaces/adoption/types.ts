@@ -22,6 +22,10 @@ export interface BomInfo {
 	extra: string;
 }
 
+export interface AdoptionsResponse {
+	result: AdoptionItem[];
+}
+
 export interface AdoptionResponse {
 	code: string;
 	message: string;

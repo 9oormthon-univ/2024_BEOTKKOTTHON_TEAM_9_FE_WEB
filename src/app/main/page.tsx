@@ -44,12 +44,12 @@ const Main = () => {
 				alignItems: "center",
 				textAlign: "center",
 				position: "relative",
-				height: "auto", // 화면 크기에 맞추어 자동 조절
-				overflowY: "scroll", // 필요 시 스크롤 생성
-				paddingTop: "200px", // 헤더가 고정되어 있으므로, 내용이 헤더 아래 시작되도록 패딩 추가
-				backgroundImage: 'url("/images/main/main_background.png")', // 전체 배경 이미지 경로
-				backgroundSize: "cover", // 배경 이미지의 크기를 화면에 맞춤
-				backgroundPosition: "center", // 배경 이미지의 위치를 가운데로 설정
+				height: "auto",
+				overflowY: "scroll",
+				paddingTop: "200px",
+				backgroundImage: 'url("/images/main/main_background.png")',
+				backgroundSize: "cover",
+				backgroundPosition: "center",
 			}}
 		>
 			<header
@@ -84,10 +84,10 @@ const Main = () => {
 				</button>
 			</header>
 
-			<div>
+			<div className="w-full px-4 lg:px-0">
 				<h1
 					style={{
-						fontSize: "25px",
+						fontSize: "clamp(10px, 5vw, 25px)",
 						fontFamily: "Pretendard Medium",
 						fontWeight: "normal",
 						marginBottom: "20px",
@@ -97,7 +97,7 @@ const Main = () => {
 				</h1>
 				<h1
 					style={{
-						fontSize: "70px",
+						fontSize: "clamp(40px, 8vw, 70px)",
 						fontFamily: "Pretendard Bold",
 						fontWeight: "bold",
 					}}
@@ -106,7 +106,7 @@ const Main = () => {
 				</h1>
 				<h1
 					style={{
-						fontSize: "70px",
+						fontSize: "clamp(40px, 8vw, 70px)",
 						fontFamily: "Pretendard Bold",
 						fontWeight: "bold",
 						marginBottom: "60px",
@@ -122,7 +122,7 @@ const Main = () => {
 						border: "none",
 						borderRadius: "37px",
 						padding: "15px 30px",
-						fontSize: "20px",
+						fontSize: "clamp(16px, 3vw, 20px)",
 						cursor: "pointer",
 						marginBottom: "100px",
 					}}
@@ -204,24 +204,18 @@ const Main = () => {
 
 			<h1
 				style={{
-					fontSize: "45px",
+					fontSize: "clamp(30px, 6vw, 45px)",
 					fontFamily: "Pretendard Bold",
 					fontWeight: "Bold",
 				}}
 			>
 				더 친근하게, 입양 정보를 전합니다
 			</h1>
-			<div
-				style={{
-					display: "flex",
-					justifyContent: "center",
-					alignItems: "center",
-				}}
-			>
+			<div className="flex flex-col lg:flex-row justify-center items-center">
 				<span
 					style={{
 						color: "#505050",
-						fontSize: "20px",
+						fontSize: "clamp(16px, 3vw, 20px)",
 						fontFamily: "Pretendard Medium",
 						fontWeight: "normal",
 					}}
@@ -231,7 +225,7 @@ const Main = () => {
 				<span
 					style={{
 						color: "#505050",
-						fontSize: "20px",
+						fontSize: "clamp(16px, 3vw, 20px)",
 						fontFamily: "Pretendard Bold",
 						fontWeight: "bold",
 						margin: "0 5px",
@@ -242,7 +236,7 @@ const Main = () => {
 				<span
 					style={{
 						color: "#505050",
-						fontSize: "20px",
+						fontSize: "clamp(16px, 3vw, 20px)",
 						fontFamily: "Pretendard Medium",
 						fontWeight: "normal",
 					}}
@@ -251,15 +245,8 @@ const Main = () => {
 				</span>
 			</div>
 
-			<div
-				style={{
-					display: "flex",
-					justifyContent: "center",
-					alignItems: "center",
-					marginTop: "100px",
-				}}
-			>
-				<div style={{ flex: 1 }}>
+			<div className="flex flex-col lg:flex-row justify-center items-center mt-20 lg:mt-100">
+				<div className="w-full lg:w-1/2 flex justify-center">
 					<img
 						src="/images/main/dog_1.png"
 						alt="First Dog"
@@ -270,13 +257,11 @@ const Main = () => {
 						}}
 					/>
 				</div>
-				<div
-					style={{ flex: 1, textAlign: "left", paddingLeft: "90px" }}
-				>
+				<div className="w-full lg:w-1/2 text-left px-4 lg:px-20 mt-10 lg:mt-0">
 					<h1
 						style={{
 							color: "#634EC0",
-							fontSize: "35px",
+							fontSize: "clamp(25px, 5vw, 35px)",
 							fontFamily: "Pretendard Bold",
 							fontWeight: "Bold",
 						}}
@@ -347,6 +332,7 @@ const Main = () => {
 				}}
 			>
 				<div
+					className=""
 					style={{
 						flex: 1,
 						textAlign: "right",
@@ -356,7 +342,7 @@ const Main = () => {
 					<h1
 						style={{
 							color: "#634EC0",
-							fontSize: "35px",
+							fontSize: "clamp(25px, 5vw, 35px)",
 							fontFamily: "Pretendard Bold",
 							fontWeight: "Bold",
 						}}
@@ -432,7 +418,7 @@ const Main = () => {
 					<h1
 						style={{
 							color: "#634EC0",
-							fontSize: "35px",
+							fontSize: "clamp(25px, 5vw, 35px)",
 							fontFamily: "Pretendard Bold",
 							fontWeight: "Bold",
 						}}

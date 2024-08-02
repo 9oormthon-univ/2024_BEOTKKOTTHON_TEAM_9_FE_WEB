@@ -106,20 +106,3 @@ export const signUp = async (
 		throw error;
 	}
 };
-
-export const getUserInfo = () => {
-	const accessToken = localStorage.getItem("accessToken");
-	if (!accessToken) return null;
-	try {
-		const tokenParts = accessToken.split(".");
-		if (tokenParts.length !== 3) return null;
-		const payload = JSON.parse(atob(tokenParts[1]));
-		return {
-			email: payload.username,
-			role: payload.role,
-		};
-	} catch (error) {
-		console.error("Error parsing token:", error);
-		return null;
-	}
-};

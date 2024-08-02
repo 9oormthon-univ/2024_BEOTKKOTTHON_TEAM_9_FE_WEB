@@ -21,7 +21,12 @@ export const useAuth = () => {
 			localStorage.setItem("memberId", data.result.memberId);
 			localStorage.setItem("email", data.result.email);
 			localStorage.setItem("shelterName", data.result.name);
-			console.log("로그인 성공:", localStorage.getItem("accessToken"));
+			if (typeof window !== "undefined") {
+				console.log(
+					"로그인 성공:",
+					localStorage.getItem("accessToken")
+				);
+			}
 			router.push("/adoption");
 		} catch (err) {
 			setError(

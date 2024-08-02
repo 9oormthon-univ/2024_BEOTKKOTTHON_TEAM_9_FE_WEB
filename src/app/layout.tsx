@@ -9,6 +9,10 @@ import VerticalNavigation from "../components/navigation";
 import Header from "../components/header";
 import { NavigationProvider } from "../context/NavigationContext";
 
+// export function generateStaticParams() {
+// 	return [{ path: ["adddog"] }, { path: ["adoption"] }];
+// }
+
 export default function RootLayout({
 	children,
 }: {

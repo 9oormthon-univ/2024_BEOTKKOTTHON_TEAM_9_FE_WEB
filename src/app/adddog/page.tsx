@@ -5,12 +5,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import { FiDownload } from "react-icons/fi";
 import { addDog } from "@/api/adoption/addDog";
 import { AddDogRequest, AddDogResponse } from "@/interfaces/adoption/addDog";
+import { useRouter } from "next/navigation";
 
 const customShadowStyle = {
 	boxShadow: "0 0 2px rgba(0, 0, 0, 0.25)",
 };
 
 const AddDogPage = () => {
+	const router = useRouter();
 	const [name, setName] = useState("");
 	const [gender, setGender] = useState("");
 	const [isMixed, setIsMixed] = useState(false);
@@ -20,9 +22,8 @@ const AddDogPage = () => {
 	const [dislikes, setDislikes] = useState("");
 	const [translation, setTranslation] = useState("");
 	const [hashtags, setHashtags] = useState<string[]>([]);
-	const [expectedEuthanasiaDate, setExpectedEuthanasiaDate] = useState<Date>(
-		new Date()
-	);
+	const [expectedEuthanasiaDate, setExpectedEuthanasiaDate] =
+		useState<Date | null>(new Date());
 
 	const handleExpectedEuthanasiaDateChange = (date: Date | null) => {
 		setExpectedEuthanasiaDate(date || new Date());
@@ -30,7 +31,11 @@ const AddDogPage = () => {
 	const [age, setAge] = useState("");
 	const [personality, setPersonality] = useState("");
 	const [extra, setExtra] = useState("");
-	const memberId = localStorage.getItem("memberId");
+
+	let memberId = "";
+	if (typeof window !== "undefined") {
+		memberId = localStorage.getItem("memberId") || "";
+	}
 
 	const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files ? event.target.files[0] : null;
@@ -45,13 +50,12 @@ const AddDogPage = () => {
 		}
 	};
 
-	const handleHashtagInput = (event: {
-		key: string;
-		target: { value: string };
-	}) => {
-		if (event.key === "Enter" && event.target.value) {
-			setHashtags([...hashtags, event.target.value]);
-			event.target.value = "";
+	const handleHashtagInput: React.KeyboardEventHandler<HTMLInputElement> = (
+		event
+	) => {
+		if (event.key === "Enter" && event.currentTarget.value) {
+			setHashtags([...hashtags, event.currentTarget.value]);
+			event.currentTarget.value = "";
 		}
 	};
 
@@ -83,7 +87,7 @@ const AddDogPage = () => {
 			if (response.code === "0000") {
 				alert("강아지 정보가 성공적으로 추가되었습니다.");
 				console.log(response.data);
-				// 성공 후 처리 (예: 페이지 리디렉션)
+				router.push("/adoption"); // 성공 시 '/adoption'으로 이동
 			} else {
 				alert("강아지 정보 추가에 실패했습니다.");
 			}
@@ -187,12 +191,13 @@ const AddDogPage = () => {
 						예정 안락사 일자
 					</label>
 					<DatePicker
-						selected={expectedEuthanasiaDate} // 선택된 날짜를 상태 변수에서 가져옴
-						onChange={(date) =>
-							setExpectedEuthanasiaDate(date as Date)
-						} // 날짜가 변경되면 상태 업데이트
+						selected={expectedEuthanasiaDate}
+						onChange={(date: Date | null) =>
+							setExpectedEuthanasiaDate(date || new Date())
+						}
 						className="w-full sm:w-3/4 p-2 rounded max-w-[626px]"
-						dateFormat="yyyy-MM-dd" // 날짜 형식을 'yyyy-MM-dd'로 설정
+						dateFormat="yyyy-MM-dd"
+						isClearable={true}
 					/>
 				</div>
 
@@ -295,7 +300,7 @@ const AddDogPage = () => {
 					<div className="sm:w-3/4 max-w-[626px]">
 						<input
 							type="text"
-							onKeyPress={handleHashtagInput}
+							onKeyDown={handleHashtagInput}
 							className="w-full p-2 rounded mb-2"
 							style={customShadowStyle}
 							placeholder="Enter를 눌러 해시태그 추가"

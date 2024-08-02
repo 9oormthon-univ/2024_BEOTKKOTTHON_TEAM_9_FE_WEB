@@ -1,5 +1,6 @@
-// src/components/navigation.tsx
 "use client";
+
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useNavigation } from "../context/NavigationContext";
@@ -16,7 +17,14 @@ const selectStyle = "bg-[#8A50FF] text-white font-bold";
 const VerticalNavigation = () => {
 	const pathname = usePathname();
 	const { isNavOpen, toggleNav } = useNavigation();
-	const shelterName = localStorage.getItem("shelterName");
+	const [shelterName, setShelterName] = useState<string | null>(null);
+
+	useEffect(() => {
+		// 클라이언트 사이드에서만 localStorage에 접근
+		if (typeof window !== "undefined") {
+			setShelterName(localStorage.getItem("shelterName"));
+		}
+	}, []);
 
 	const NavigationList: NavItem[] = [
 		{

@@ -24,7 +24,11 @@ const ApplicantDetailPage = ({
 	const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
-	const accessToken = localStorage.getItem("accessToken") ?? "";
+
+	let accessToken = "";
+	if (typeof window !== "undefined") {
+		const accessToken = localStorage.getItem("accessToken") ?? "";
+	}
 
 	useEffect(() => {
 		const fetchData = async () => {

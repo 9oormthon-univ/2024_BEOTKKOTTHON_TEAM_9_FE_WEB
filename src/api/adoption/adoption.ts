@@ -2,10 +2,14 @@ import axios from "axios";
 import {
 	AdoptionItem,
 	AdoptionSummaryResponse,
+	AdoptionsResponse, // Add this import
 } from "@/interfaces/adoption/types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
-const memberId = localStorage.getItem("memberId");
+let memberId = "";
+if (typeof window !== "undefined") {
+	memberId = localStorage.getItem("memberId") || "";
+}
 export const getAdoptionSummary =
 	async (): Promise<AdoptionSummaryResponse> => {
 		try {
@@ -19,7 +23,7 @@ export const getAdoptionSummary =
 		}
 	};
 
-export const getAdoptions = async (): Promise<AdoptionItem[]> => {
+export async function getAdoptions(): Promise<AdoptionsResponse> {
 	try {
 		const response = await axios.get(
 			`${API_URL}/api/v1/shelter/${memberId}/bom-lists`
@@ -30,4 +34,4 @@ export const getAdoptions = async (): Promise<AdoptionItem[]> => {
 		console.error("Failed to fetch adoptions:", error);
 		throw error;
 	}
-};
+}

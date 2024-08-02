@@ -6,12 +6,6 @@ import {
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-function logFormData(formData: FormData) {
-	for (let [key, value] of formData.entries()) {
-		console.log(key, value);
-	}
-}
-
 const formatDate = (date: Date): string => {
 	const year = date.getFullYear();
 	const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -42,7 +36,11 @@ export const addDog = async (data: AddDogRequest): Promise<AddDogResponse> => {
 	}
 
 	try {
-		const accessToken = localStorage.getItem("accessToken");
+		let accessToken = "";
+
+		if (typeof window !== "undefined") {
+			accessToken = localStorage.getItem("accessToken") || "";
+		}
 		console.log("accessToken", accessToken);
 		if (!accessToken) {
 			throw new Error("Access token not found");
@@ -55,7 +53,6 @@ export const addDog = async (data: AddDogRequest): Promise<AddDogResponse> => {
 			Authorization: `Bearer ${accessToken}`,
 		});
 		console.log("Request Data:");
-		logFormData(formData);
 
 		const response = await axios.post<AddDogResponse>(
 			`${API_URL}/api/v1/post`,
