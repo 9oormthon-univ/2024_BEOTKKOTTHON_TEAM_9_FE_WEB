@@ -13,3 +13,15 @@ export interface OrganizationInfoResponse {
 		address: string;
 	};
 }
+export interface UpdateOrganizationInfoRequest {
+	shelterId: number;
+	phone: string;
+	managerName: string;
+	subEmail: string;
+}
+
+export interface UpdateOrganizationInfoResponse {
+	code: string;
+	message: string;
+	result: null;
+}

@@ -26,3 +26,30 @@ export const fetchOrganizationInfo = async (
 		throw error;
 	}
 };
+
+export const updateOrganizationInfo = async (
+	shelterId: number,
+	phone: string,
+	managerName: string,
+	subEmail: string
+) => {
+	let accessToken = "";
+	if (typeof window !== "undefined") {
+		accessToken = localStorage.getItem("accessToken") ?? "";
+	}
+	const response = await axios.put(
+		`${API_URL}/api/v1/shelter/info`,
+		{
+			shelterId,
+			phone,
+			managerName,
+			subEmail,
+		},
+		{
+			headers: {
+				Authorization: `Bearer ${accessToken}`,
+			},
+		}
+	);
+	return response.data;
+};

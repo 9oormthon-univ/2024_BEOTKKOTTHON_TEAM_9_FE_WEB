@@ -1,7 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { fetchOrganizationInfo } from "../../api/organizationinfo/organizationinfo";
-import { OrganizationInfoResponse } from "../../interfaces/organizationinfo/organizationinfo";
+import {
+	fetchOrganizationInfo,
+	updateOrganizationInfo,
+} from "../../api/organizationinfo/organizationinfo";
+import {
+	OrganizationInfoResponse,
+	UpdateOrganizationInfoResponse,
+	UpdateOrganizationInfoRequest,
+} from "../../interfaces/organizationinfo/organizationinfo";
 
 const OrganizationInfoPage = () => {
 	const [showPassword, setShowPassword] = useState(false);
@@ -15,11 +22,15 @@ const OrganizationInfoPage = () => {
 		주소: "",
 	});
 	const [docInfo, setDocInfo] = useState({ name: "", url: "" });
+	let memberId = "";
+	if (typeof window !== "undefined") {
+		memberId = localStorage.getItem("memberId") ?? "";
+	}
 
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
-				const response = await fetchOrganizationInfo(36); // shelterId를 36으로 고정
+				const response = await fetchOrganizationInfo(Number(memberId)); // shelterId를 36으로 고정
 				const { result } = response;
 				setFormData({
 					담당자: result.managerName,
@@ -37,16 +48,37 @@ const OrganizationInfoPage = () => {
 		fetchData();
 	}, []);
 
-	const handleEdit = () => {
+	const handleEdit = async () => {
 		if (isEditing) {
-			console.log("수정 완료:", formData);
-			// 여기에 수정된 데이터를 서버로 보내는 로직을 추가할 수 있습니다.
+			try {
+				const response: UpdateOrganizationInfoResponse =
+					await updateOrganizationInfo(
+						Number(memberId),
+						formData.기관번호,
+						formData.담당자,
+						formData.보조이메일
+					);
+				if (response.code === "0000") {
+					console.log("수정 완료:", formData);
+					// 수정 성공 메시지 표시
+					alert("정보가 성공적으로 수정되었습니다.");
+				} else {
+					// 수정 실패 메시지 표시
+					alert("정보 수정에 실패했습니다.");
+				}
+			} catch (error) {
+				console.error("Failed to update organization info:", error);
+				alert("정보 수정 중 오류가 발생했습니다.");
+			}
 		}
 		setIsEditing(!isEditing);
 	};
 
 	const handleChange = (key: string, value: string) => {
-		setFormData({ ...formData, [key]: value });
+		if (key !== "이메일") {
+			// 이메일 수정 방지
+			setFormData({ ...formData, [key]: value });
+		}
 	};
 
 	return (
@@ -78,7 +110,7 @@ const OrganizationInfoPage = () => {
 							>
 								<td className="py-3 px-4">{key}</td>
 								<td className="py-3 px-4 text-right flex justify-between items-center">
-									{isEditing ? (
+									{isEditing && key !== "이메일" ? ( // 이메일 수정 방지
 										<input
 											type="text"
 											value={value}
