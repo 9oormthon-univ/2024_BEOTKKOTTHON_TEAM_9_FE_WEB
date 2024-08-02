@@ -49,7 +49,7 @@ export interface AdoptionItem {
 	postId: number; // Long을 TypeScript에서는 number로 처리합니다.
 	name: string;
 	gender: string;
-	extrat: string; // API 응답에 'extrat'로 되어 있는데, 'extra'의 오타인지 확인이 필요합니다.
+	extra: string;
 	createdAt: string; // LocalDateTime은 문자열로 받아 처리합니다.
 	adoptStatusCount: number;
 }
@@ -64,5 +64,3 @@ export interface AdoptionSummaryResponse {
 		pendingAdoptions: number;
 	};
 }
-
-

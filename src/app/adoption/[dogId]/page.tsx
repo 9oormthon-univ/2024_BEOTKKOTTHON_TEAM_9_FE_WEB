@@ -250,11 +250,11 @@ const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 
 					<div className="text-right mb-8">
 						<button
-							onClick={() =>
-								isEditing
-									? handleEditComplete()
-									: setIsEditing(true)
-							}
+							// onClick={() =>
+							// 	isEditing
+							// 		? handleEditComplete()
+							// 		: setIsEditing(true)
+							// }
 							className="bg-[#8A50FF] text-white py-2 px-6 rounded-sm hover:bg-[#7340DB] transition duration-300"
 						>
 							{isEditing ? "수정 완료" : "정보 수정하기"}

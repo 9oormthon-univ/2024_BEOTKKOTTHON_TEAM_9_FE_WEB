@@ -17,7 +17,9 @@ export const useAuth = () => {
 		try {
 			const data = await login(email, password);
 			// 로그인 성공 처리 (예: 토큰 저장)
-			localStorage.setItem("token", data.token);
+			localStorage.setItem("accessToken", data.result.accessToken);
+			localStorage.setItem("memberId", data.result.memberId);
+			console.log("로그인 성공:", localStorage.getItem("accessToken"));
 			router.push("/adoption");
 		} catch (err) {
 			setError(

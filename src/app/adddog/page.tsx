@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FiDownload } from "react-icons/fi";
+import { addDog } from "@/api/adoption/addDog";
+import { AddDogRequest } from "@/interfaces/adoption/addDog";
 
 const customShadowStyle = {
 	boxShadow: "0 0 2px rgba(0, 0, 0, 0.25)",
@@ -13,18 +15,28 @@ const AddDogPage = () => {
 	const [gender, setGender] = useState("");
 	const [isMixed, setIsMixed] = useState(false);
 	const [breedType, setBreedType] = useState("");
-	const [euthanasiaDate, setEuthanasiaDate] = useState(new Date());
-	const [image, setImage] = useState(null);
+	const [euthanasiaDate, setEuthanasiaDate] = useState<Date | null>(
+		new Date()
+	);
+	const [image, setImage] = useState<string | null>(null);
 	const [likes, setLikes] = useState("");
 	const [dislikes, setDislikes] = useState("");
-	const [introduction, setIntroduction] = useState("");
+	const [translation, setTranslation] = useState("");
 	const [hashtags, setHashtags] = useState<string[]>([]);
+	const [age, setAge] = useState("");
+	const [personality, setPersonality] = useState("");
+	const [extra, setExtra] = useState("");
+	const [findingLocation, setFindingLocation] = useState("");
 
-	const handleImageUpload = (event: { target: { files: any[] } }) => {
-		const file = event.target.files[0];
+	const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const file = event.target.files ? event.target.files[0] : null;
 		if (file) {
 			const reader = new FileReader();
-			reader.onload = (e) => setImage(e.target.result);
+			reader.onload = (e) => {
+				if (e.target) {
+					setImage(e.target.result as string);
+				}
+			};
 			reader.readAsDataURL(file);
 		}
 	};
@@ -36,6 +48,43 @@ const AddDogPage = () => {
 		if (event.key === "Enter" && event.target.value) {
 			setHashtags([...hashtags, event.target.value]);
 			event.target.value = "";
+		}
+	};
+
+	const handleSubmit = async (e: React.FormEvent) => {
+		e.preventDefault();
+
+		const dogData: AddDogRequest = {
+			shelterId: 3, // 고정값
+			bomInfo: {
+				name,
+				age,
+				gender,
+				breed: breedType === "purebred" ? "믹스견 아님" : "믹스견", // 예시, 실제로는 더 자세한 로직이 필요할 수 있습니다.
+				personality,
+				extra,
+				likes,
+				hates: dislikes,
+				findingLocation,
+			},
+			uploadFile: image
+				? new File([image], "dogImage.png", { type: "image/png" })
+				: null,
+		};
+
+		try {
+			const response = await addDog(dogData);
+			console.log(response);
+			if (response.code === "0000") {
+				alert("강아지 정보가 성공적으로 추가되었습니다.");
+				console.log(response.data);
+				// 성공 후 처리 (예: 페이지 리디렉션)
+			} else {
+				alert("강아지 정보 추가에 실패했습니다.");
+			}
+		} catch (error) {
+			console.error("Error adding dog:", error);
+			alert("오류가 발생했습니다. 다시 시도해주세요.");
 		}
 	};
 
@@ -83,6 +132,19 @@ const AddDogPage = () => {
 						<option value="암컷">암컷</option>
 						<option value="수컷">수컷</option>
 					</select>
+				</div>
+
+				<div className="flex flex-col sm:flex-row sm:items-center">
+					<label className="block mb-2 sm:mb-0 sm:w-1/4 font-semibold">
+						대략적인 나이
+					</label>
+					<input
+						type="age"
+						value={age}
+						onChange={(e) => setAge(e.target.value)}
+						className="w-full sm:w-3/4 p-2 rounded max-w-[626px]"
+						style={customShadowStyle}
+					/>
 				</div>
 
 				<div className="flex flex-col sm:flex-row sm:items-center">
@@ -199,8 +261,8 @@ const AddDogPage = () => {
 						한줄소개
 					</label>
 					<textarea
-						value={introduction}
-						onChange={(e) => setIntroduction(e.target.value)}
+						value={extra}
+						onChange={(e) => setExtra(e.target.value)}
 						className="w-full sm:w-3/4 p-2 rounded max-w-[626px]"
 						style={customShadowStyle}
 						rows={3}
@@ -208,6 +270,32 @@ const AddDogPage = () => {
 				</div>
 
 				<div className="flex flex-col sm:flex-row sm:items-start">
+					<label className="block mb-2 sm:mb-0 sm:w-1/4 font-semibold">
+						성격
+					</label>
+					<textarea
+						value={personality}
+						onChange={(e) => setPersonality(e.target.value)}
+						className="w-full sm:w-3/4 p-2 rounded max-w-[626px]"
+						style={customShadowStyle}
+						rows={3}
+					/>
+				</div>
+
+				<div className="flex flex-col sm:flex-row sm:items-center">
+					<label className="block mb-2 sm:mb-0 sm:w-1/4 font-semibold">
+						발견된 곳
+					</label>
+					<input
+						type="text"
+						value={findingLocation}
+						onChange={(e) => setFindingLocation(e.target.value)}
+						className="w-full sm:w-3/4 p-2 rounded max-w-[626px]"
+						style={customShadowStyle}
+					/>
+				</div>
+
+				{/* <div className="flex flex-col sm:flex-row sm:items-start">
 					<label className="block mb-2 sm:mb-0 sm:w-1/4 font-semibold">
 						해시태그
 					</label>
@@ -230,11 +318,14 @@ const AddDogPage = () => {
 							))}
 						</div>
 					</div>
-				</div>
+				</div> */}
 			</div>
 
 			<div className="mt-12 text-center ">
-				<button className="bg-[#8A50FF] text-white py-2 px-4 rounded hover:bg-[#3E1C8F] transition duration-300 w-full sm:w-[140px] ">
+				<button
+					onClick={handleSubmit}
+					className="bg-[#8A50FF] text-white py-2 px-4 rounded hover:bg-[#3E1C8F] transition duration-300 w-full sm:w-[140px]"
+				>
 					저장하기
 				</button>
 			</div>
