@@ -8,7 +8,10 @@ export const useSignupComplete = () => {
 	const router = useRouter();
 
 	useEffect(() => {
-		const signupEmail = localStorage.getItem("signupEmail");
+		let signupEmail = "";
+		if (typeof window !== "undefined") {
+			signupEmail = localStorage.getItem("signupEmail");
+		}
 		if (signupEmail) {
 			setEmail(signupEmail);
 			localStorage.removeItem("signupEmail"); // 사용 후 제거

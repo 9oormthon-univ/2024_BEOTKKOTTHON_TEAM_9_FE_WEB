@@ -19,8 +19,11 @@ export interface BomInfo {
 	personality: string;
 	likes: string;
 	hates: string;
-	findingLocation: string;
 	extra: string;
+}
+
+export interface AdoptionsResponse {
+	result: AdoptionItem[];
 }
 
 export interface AdoptionResponse {
@@ -39,19 +42,19 @@ export interface AdoptionResponse {
 			personality: string;
 			likes: string;
 			hates: string;
-			findingLocation: string;
 			extra: string;
 		};
 	};
 }
 
 export interface AdoptionItem {
-	postId: number; // Long을 TypeScript에서는 number로 처리합니다.
+	postId: number;
 	name: string;
 	gender: string;
-	extrat: string; // API 응답에 'extrat'로 되어 있는데, 'extra'의 오타인지 확인이 필요합니다.
-	createdAt: string; // LocalDateTime은 문자열로 받아 처리합니다.
+	extra: string;
+	createdAt: string;
 	adoptStatusCount: number;
+	result: {};
 }
 
 export interface AdoptionSummaryResponse {
@@ -63,36 +66,4 @@ export interface AdoptionSummaryResponse {
 		completedAdoptions: number;
 		pendingAdoptions: number;
 	};
-}
-
-export interface ApiResponse<T> {
-	code: string;
-	message: string;
-	result: T;
-}
-
-export interface DogPost {
-	postId: number;
-	shelterId: number;
-	bomInfo: DogDetails;
-}
-
-export interface DogDetails {
-	infoId: number;
-	postId: number;
-	name: string;
-	age: string;
-	breed: string;
-	gender: string;
-	personality: string;
-	likes: string;
-	hates: string;
-	findingLocation: string;
-	extra: string;
-}
-
-export interface Applicant {
-	id: number;
-	name: string;
-	reason: string;
 }

@@ -24,11 +24,11 @@ const AdoptionContainer = () => {
 					getAdoptions(),
 				]);
 				console.log("Summary data:", summary);
-				console.log("Adoptions data:", adoptionsData);
+				console.log("Adoptions result data:", adoptionsData.result);
 				setSummaryData(summary);
 				if (
 					adoptionsData &&
-					adoptionsData.result &&
+					adoptionsData &&
 					Array.isArray(adoptionsData.result)
 				) {
 					setAdoptions(adoptionsData.result);

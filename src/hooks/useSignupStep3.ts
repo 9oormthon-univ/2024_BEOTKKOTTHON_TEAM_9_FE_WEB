@@ -1,31 +1,28 @@
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { signUp } from "@/api/auth";
+import { ShelterSignUpData } from "@/api/auth";
 
 export const useSignupStep3 = () => {
-	const [formData, setFormData] = useState<{
-		email: string;
-		organizationName: string;
-		managerName: string;
-		password: string;
-		confirmPassword: string;
-		secondaryEmail: string;
-		certFile: File | null;
-		phoneNumber: string;
-		location: string;
-	}>({
+	const [formData, setFormData] = useState({
 		email: "",
 		organizationName: "",
 		managerName: "",
 		password: "",
 		confirmPassword: "",
 		secondaryEmail: "",
-		certFile: null,
+		certFile: null as File | null,
 		phoneNumber: "",
 		location: "",
 	});
 
-	const router = useRouter();
+	const [addressData, setAddressData] = useState<{
+		address: string;
+		latitude: string;
+		longitude: string;
+	}>({
+		address: "",
+		latitude: "0",
+		longitude: "0",
+	});
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -38,28 +35,21 @@ export const useSignupStep3 = () => {
 		}
 	};
 
-	const handleAddressChange = (address: string) => {
+	const handleAddressChange = (
+		address: string,
+		latitude: string,
+		longitude: string
+	) => {
 		setFormData((prev) => ({ ...prev, location: address }));
-	};
-
-	const handleSubmit = async () => {
-		try {
-			console.log("Submitting form data:", formData); // 디버깅용 로그
-			await signUp(formData);
-			console.log("Signup successful"); // 디버깅용 로그
-			localStorage.setItem("signupEmail", formData.email);
-			router.push("/signup/complete");
-		} catch (error) {
-			console.error("Signup failed:", error);
-			alert("회원가입에 실패했습니다. 다시 시도해주세요.");
-		}
+		setAddressData({ address, latitude, longitude });
 	};
 
 	return {
 		formData,
+		addressData,
 		handleInputChange,
 		handleFileChange,
 		handleAddressChange,
-		handleSubmit,
+		setFormData,
 	};
 };

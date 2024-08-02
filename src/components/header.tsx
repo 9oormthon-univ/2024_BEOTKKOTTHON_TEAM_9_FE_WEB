@@ -3,11 +3,21 @@ import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { useNavigation } from "../context/NavigationContext";
 import { FiMenu } from "react-icons/fi";
+import { useEffect, useState } from "react";
 
 const Header = () => {
 	const pathname = usePathname();
-	const userName = "사용자 이름";
+	const [userEmail, setUserEmail] = useState<string | null>(null);
 	const { toggleNav } = useNavigation();
+
+	useEffect(() => {
+		// 클라이언트 사이드에서만 localStorage에 접근
+		const email =
+			typeof window !== "undefined"
+				? localStorage.getItem("email")
+				: null;
+		setUserEmail(email);
+	}, []);
 
 	const navigationName: { [key: string]: string } = {
 		"/adoption": "입양신청 관리",
@@ -25,7 +35,7 @@ const Header = () => {
 				<Image
 					src="/svg/navi/logo.svg"
 					alt="Logo"
-					width={207}
+					width={30}
 					height={30}
 				/>
 			</div>
@@ -33,7 +43,7 @@ const Header = () => {
 				{currentNavigationName}
 			</div>
 			<div className="flex-1 text-right flex items-center justify-end">
-				<span className="mr-4">{userName}</span>
+				<span className="mr-4">{userEmail}</span>
 				<button onClick={toggleNav} className="lg:hidden">
 					<FiMenu size={24} color="#5326AC" />
 				</button>

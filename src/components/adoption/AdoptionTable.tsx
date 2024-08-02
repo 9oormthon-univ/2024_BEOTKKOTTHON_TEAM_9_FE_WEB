@@ -163,7 +163,7 @@ const AdoptionTable: React.FC<{ adoptions: AdoptionItem[] }> = ({
 										borderBottom: "1px solid #C7C7C7",
 									}}
 								>
-									{adoption.extrat}
+									{adoption.extra}
 								</td>
 								<td
 									className="p-2 md:p-3 truncate max-w-[100px]"

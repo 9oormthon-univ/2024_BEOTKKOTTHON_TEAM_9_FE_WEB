@@ -9,6 +9,10 @@ import VerticalNavigation from "../components/navigation";
 import Header from "../components/header";
 import { NavigationProvider } from "../context/NavigationContext";
 
+// export function generateStaticParams() {
+// 	return [{ path: ["adddog"] }, { path: ["adoption"] }];
+// }
+
 export default function RootLayout({
 	children,
 }: {
@@ -20,7 +24,7 @@ export default function RootLayout({
 		pathname === "/signup" ||
 		pathname === "/signup/step2" ||
 		pathname === "/signup/step3" ||
-		pathname === "/signup/complete"||
+		pathname === "/signup/complete" ||
 		pathname === "/main";
 
 	return (

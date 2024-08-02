@@ -25,15 +25,20 @@ const ApplicantDetailPage = ({
 	const [isLoading, setIsLoading] = useState(true);
 	const [error, setError] = useState<string | null>(null);
 
+	let accessToken = "";
+	if (typeof window !== "undefined") {
+		const accessToken = localStorage.getItem("accessToken") ?? "";
+	}
+
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				const [detailData, chatData] = await Promise.all([
 					fetchApplicantDetail(params.dogId, params.userId),
-					fetchChatHistory(params.dogId, params.userId),
+					fetchChatHistory(params.dogId, params.userId, accessToken),
 				]);
 				setApplicantData(detailData.result);
-				setChatHistory(chatData.result);
+				setChatHistory(chatData);
 				setIsLoading(false);
 			} catch (err) {
 				setError("Failed to fetch data");
@@ -52,7 +57,7 @@ const ApplicantDetailPage = ({
 		<div className="mx-auto p-4 md:p-10 mt-10">
 			<h1 className="text-2xl md:text-3xl font-semibold mb-8">
 				입양 신청자 정보 &gt;{" "}
-				<span className="text-[#5326AC]">{applicantData.userName}</span>
+				<span className="text-[#5326AC]">{applicantData.name}</span>
 			</h1>
 
 			<hr className="border-t-2 border-[#D4CEE1] opacity-30 mb-6" />

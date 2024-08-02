@@ -1,8 +1,3 @@
-export interface ChatMessage {
-	input: string;
-	response: string;
-}
-
 export interface ApplicantDetailResponse {
 	code: string;
 	message: string;
@@ -21,6 +16,11 @@ export interface ApplicantDetailResponse {
 			dogNewsAnswer: string;
 		};
 	};
+}
+
+export interface ChatMessage {
+	input: string;
+	response: string;
 }
 
 export interface ChatHistoryResponse {

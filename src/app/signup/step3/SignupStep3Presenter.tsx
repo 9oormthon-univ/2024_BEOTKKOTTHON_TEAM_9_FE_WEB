@@ -3,6 +3,7 @@ import ProgressIndicator from "@/components/signup/ProgressIndicator";
 import Banner from "@/components/signup/Banner";
 import NavigationButtons from "@/components/signup/NavigationButtons";
 import AddressInput from "@/components/signup/AddressInput";
+import { ShelterSignUpData } from "@/api/auth";
 
 interface SignupStep3PresenterProps {
 	formData: {
@@ -18,8 +19,12 @@ interface SignupStep3PresenterProps {
 	};
 	handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-	handleAddressChange: (address: string) => void;
-	handleSubmit: () => void;
+	handleAddressChange: (
+		address: string,
+		latitude: string,
+		longitude: string
+	) => void;
+	handleSubmit: () => Promise<boolean>;
 }
 
 const SignupStep3Presenter: React.FC<SignupStep3PresenterProps> = ({
@@ -123,7 +128,17 @@ const SignupStep3Presenter: React.FC<SignupStep3PresenterProps> = ({
 
 						<AddressInput
 							value={formData.location}
-							onChange={handleAddressChange}
+							onChange={(
+								address: string,
+								latitude: string,
+								longitude: string
+							) =>
+								handleAddressChange(
+									address,
+									latitude,
+									longitude
+								)
+							}
 						/>
 
 						<div className="flex flex-col">

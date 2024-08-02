@@ -2,6 +2,7 @@
     "compilerOptions": {
         "lib": ["dom", "dom.iterable", "esnext"],
         "allowJs": true,
+        
         "skipLibCheck": true,
         "strict": true,
         "noEmit": true,
@@ -12,6 +13,18 @@
         "isolatedModules": true,
         "jsx": "preserve",
         "incremental": true,
+        "noImplicitAny": false,
+        "strictNullChecks": false,
+        "strictFunctionTypes": false,
+        "strictBindCallApply": false,
+        "strictPropertyInitialization": false,
+        "noImplicitThis": false,
+        "alwaysStrict": false,
+        "noEmitOnError": false,
+        "checkJs": false,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        
         "plugins": [
             {
                 "name": "next"

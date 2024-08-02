@@ -3,6 +3,7 @@ import {
 	ApplicantDetailResponse,
 	ChatHistoryResponse,
 } from "../../interfaces/adoption/applicantDetail";
+import { ChatMessage } from "../../interfaces/adoption/applicantDetail";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -12,7 +13,7 @@ export const fetchApplicantDetail = async (
 ): Promise<ApplicantDetailResponse> => {
 	try {
 		const response = await axios.get(
-			`${API_URL}/api/v1/shelter/1/applicants/1`
+			`${API_URL}/api/v1/shelter/${dogId}/applicants/${userId}`
 		);
 		return response.data;
 	} catch (error) {
@@ -23,13 +24,25 @@ export const fetchApplicantDetail = async (
 
 export const fetchChatHistory = async (
 	postId: string,
-	adoptId: string
-): Promise<ChatHistoryResponse> => {
+	userId: string,
+	token: string
+): Promise<ChatMessage[]> => {
 	try {
 		const response = await axios.get<ChatHistoryResponse>(
-			`${API_URL}/api/v1/shelter/${postId}/applicants/${adoptId}/chat-history`
+			`${API_URL}/api/v1/chat/${postId}/${userId}`,
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+					"Content-Type": "application/json",
+				},
+			}
 		);
-		return response.data;
+
+		if (response.data.code !== "0000") {
+			throw new Error(`API Error: ${response.data.code}`);
+		}
+
+		return response.data.result;
 	} catch (error) {
 		console.error("Error fetching chat history:", error);
 		throw error;

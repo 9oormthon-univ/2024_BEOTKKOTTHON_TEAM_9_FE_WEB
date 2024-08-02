@@ -13,6 +13,7 @@ const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [editedDogData, setEditedDogData] = useState<DogDetails | null>(null);
 	const [applicantList, setApplicantList] = useState<Applicant[]>([]);
+	const accessToken = localStorage.getItem("accessToken") || "";
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -21,7 +22,10 @@ const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 				setDogData(details);
 				setEditedDogData(details);
 
-				const applicantList = await getApplicantList(dogId);
+				const applicantList = await getApplicantList(
+					dogId,
+					accessToken
+				);
 				setApplicantList(applicantList);
 				console.log("Applicant list:", applicantList);
 			} catch (error) {
@@ -203,7 +207,7 @@ const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 													field: "personality" as keyof DogDetails,
 												},
 												{
-													label: "발견 장소",
+													label: "해시태그",
 													field: "findingLocation" as keyof DogDetails,
 												},
 												{
@@ -250,11 +254,11 @@ const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 
 					<div className="text-right mb-8">
 						<button
-							onClick={() =>
-								isEditing
-									? handleEditComplete()
-									: setIsEditing(true)
-							}
+							// onClick={() =>
+							// 	isEditing
+							// 		? handleEditComplete()
+							// 		: setIsEditing(true)
+							// }
 							className="bg-[#8A50FF] text-white py-2 px-6 rounded-sm hover:bg-[#7340DB] transition duration-300"
 						>
 							{isEditing ? "수정 완료" : "정보 수정하기"}

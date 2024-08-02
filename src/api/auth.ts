@@ -2,19 +2,6 @@ import axios from "axios";
 
 const API_URL = `/api`;
 
-interface LoginResponse {
-	code: string;
-	message: string;
-	result?: {
-		accessToken: string;
-		refreshToken: string;
-		name: string;
-		email: string;
-		memberId: number;
-		memberType: string;
-	};
-}
-
 const api = axios.create({
 	baseURL: API_URL, // Check if this URL correctly points to your backend
 	headers: {
@@ -51,49 +38,71 @@ export const login = async (email: string, password: string) => {
 		throw error; // Re-throw the error if it's not an AxiosError
 	}
 };
+export interface ShelterSignUpData {
+	email: string;
+	password: string;
+	name: string;
+	phone: string;
+	managerName: string;
+	subEmail: string;
+	address: string;
+	latitude: string;
+	longitude: string;
+	[key: string]: any; // Add index signature
+}
+interface SignUpResponse {
+	code: string;
+	message: string;
+	result: any;
+}
 
-export const signUp = async (userData: any) => {
+export interface ShelterSignUpData {
+	email: string;
+	password: string;
+	name: string;
+	phone: string;
+	managerName: string;
+	subEmail: string;
+	address: string;
+	latitude: string;
+	longitude: string;
+	uploadFile: File;
+}
+
+export const signUp = async (
+	userData: ShelterSignUpData
+): Promise<SignUpResponse> => {
 	try {
-		const response = await api.post("/v1/shelter/signup", userData);
-		console.log("API response:", response.data);
+		console.log("Sending signup data:", userData);
+
+		const formData = new FormData();
+
+		// 모든 필드를 FormData에 추가
+		Object.keys(userData).forEach((key) => {
+			if (key === "latitude" || key === "longitude") {
+				// 숫자 값을 문자열로 변환
+				formData.append(key, userData[key].toString());
+			} else if (key === "uploadFile") {
+				// 파일 추가
+				formData.append(key, userData[key], userData[key].name);
+			} else {
+				formData.append(key, userData[key]);
+			}
+		});
+
+		const response = await api.post<SignUpResponse>(
+			"/v1/shelter/signup",
+			formData,
+			{
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			}
+		);
+
 		return response.data;
 	} catch (error) {
-		console.error(
-			"API error:",
-			(error as any).response?.data || (error as any).response?.message
-		);
+		console.error("API error:", error);
 		throw error;
-	}
-};
-
-export const checkTokenValidity = async () => {
-	try {
-		const response = await api.get("/v1/shelter/check-token");
-		return response.data;
-	} catch (error) {
-		console.error(
-			"Token check error:",
-			(error as any).response?.data || (error as any).response?.message
-		);
-		localStorage.removeItem("accessToken");
-		localStorage.removeItem("refreshToken");
-		throw error;
-	}
-};
-
-export const getUserInfo = () => {
-	const accessToken = localStorage.getItem("accessToken");
-	if (!accessToken) return null;
-	try {
-		const tokenParts = accessToken.split(".");
-		if (tokenParts.length !== 3) return null;
-		const payload = JSON.parse(atob(tokenParts[1]));
-		return {
-			email: payload.username,
-			role: payload.role,
-		};
-	} catch (error) {
-		console.error("Error parsing token:", error);
-		return null;
 	}
 };
