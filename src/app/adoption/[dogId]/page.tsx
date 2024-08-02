@@ -13,6 +13,7 @@ const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [editedDogData, setEditedDogData] = useState<DogDetails | null>(null);
 	const [applicantList, setApplicantList] = useState<Applicant[]>([]);
+	const accessToken = localStorage.getItem("accessToken") || "";
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -21,7 +22,10 @@ const DogDetailPage = ({ params }: { params: { dogId: string } }) => {
 				setDogData(details);
 				setEditedDogData(details);
 
-				const applicantList = await getApplicantList(dogId);
+				const applicantList = await getApplicantList(
+					dogId,
+					accessToken
+				);
 				setApplicantList(applicantList);
 				console.log("Applicant list:", applicantList);
 			} catch (error) {

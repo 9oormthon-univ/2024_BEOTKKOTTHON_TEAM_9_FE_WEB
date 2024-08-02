@@ -1,5 +1,6 @@
 export interface Applicant {
-	memberId: string;
+	memberId: number;
+	email: string;
 	name: string;
 	reasonForAdoption: string;
 }
